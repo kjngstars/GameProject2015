@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\DX">
+      <UniqueIdentifier>{150316e7-5c80-4669-9a91-a5f6ce1c982b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DX">
+      <UniqueIdentifier>{453994a9-984c-43a8-85e1-cfc002765940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CGame">
+      <UniqueIdentifier>{3e938b30-5f78-4ac2-912f-aafe58dd8758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{c1702b8d-9496-4e45-a66e-285bbfbf3c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Luigi">
+      <UniqueIdentifier>{5e51a1f2-9598-44ca-9e93-1bfe24235a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CLuigi">
+      <UniqueIdentifier>{5df48786-6c9a-456d-876f-e0685e47d2cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CLuigi">
+      <UniqueIdentifier>{7ab53ec1-d2b4-4ea4-af94-eda6d147ea0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlParser">
+      <UniqueIdentifier>{9692b333-6226-4546-a869-84a53fb28285}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectSound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\CDXInput.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLuigi\CLuigi.h">
+      <Filter>Header Files\CLuigi</Filter>
+    </ClInclude>
+    <ClInclude Include="CLuigi\LuigiConstant.h">
+      <Filter>Header Files\CLuigi</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoudingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xmlparser\tinyxml2.h">
+      <Filter>XmlParser</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\CDXInput.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="CGame\CGameUpdate.cpp">
+      <Filter>Source Files\CGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CGame\CGameRender.cpp">
+      <Filter>Source Files\CGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CGame\CGame.cpp">
+      <Filter>Source Files\CGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLuigi\CLuigi.cpp">
+      <Filter>Source Files\CLuigi</Filter>
+    </ClCompile>
+    <ClCompile Include="CLuigi\CLuigi_Update.cpp">
+      <Filter>Source Files\CLuigi</Filter>
+    </ClCompile>
+    <ClCompile Include="CLuigi\CLuigi_Render.cpp">
+      <Filter>Source Files\CLuigi</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xmlparser\tinyxml2.cpp">
+      <Filter>XmlParser</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="temp.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Content\Luigi\Luigi.png">
+      <Filter>Content\Luigi</Filter>
+    </Image>
+    <Image Include="Content\Luigi\LuigiCloth.png">
+      <Filter>Content\Luigi</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Luigi\E0.fx">
+      <Filter>Content\Luigi</Filter>
+    </None>
+  </ItemGroup>
+</Project>

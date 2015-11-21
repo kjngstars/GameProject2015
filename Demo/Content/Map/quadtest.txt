@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<quadtree>
+  <node id="0">
+    <pos>{0,0}</pos>
+    <size>{6144,832}</size>
+  </node>
+  <node id="1">
+    <pos>{0,0}</pos>
+    <size>{3072,416}</size>
+  </node>
+  <node id="2">
+    <pos>{3072,0}</pos>
+    <size>{3072,416}</size>
+  </node>
+  <node id="4">
+    <pos>{0,416}</pos>
+    <size>{3072,416}</size>
+  </node>
+  <node id="33">
+    <pos>{0,416}</pos>
+    <size>{1536,208}</size>
+    <list-object>
+      <id>68</id>
+    </list-object>
+  </node>
+  <node id="34">
+    <pos>{1536,416}</pos>
+    <size>{1536,208}</size>
+  </node>
+  <node id="36">
+    <pos>{0,624}</pos>
+    <size>{1536,208}</size>
+    <list-object>
+      <id>68</id>
+      <id>69</id>
+    </list-object>
+  </node>
+  <node id="35">
+    <pos>{1536,624}</pos>
+    <size>{1536,208}</size>
+  </node>
+  <node id="3">
+    <pos>{3072,416}</pos>
+    <size>{3072,416}</size>
+  </node>
+</quadtree>
