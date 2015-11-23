@@ -18,8 +18,8 @@ void CGame::GameInit()
 
 	//map
 	_map.init("./content/map/map1-1.txt", "./content/map/tileset1.png");
-	_map.loadMapObject("content/map/objecttest.txt");
-	_map.loadQuadTree("content/map/quadtest.txt");
+	_map.loadMapObject("content/map/object-1.txt");
+	_map.loadQuadTree("content/map/quadtree-1.txt");
 	
 	//camera
 	_camera = _map.getCamera();
