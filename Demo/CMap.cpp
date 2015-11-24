@@ -287,6 +287,11 @@ std::map<int, GameObject*> CMap::getMapObject()
 	return _mapObject;
 }
 
+std::list<EnemyInfo> CMap::getListEnemiesInfo()
+{
+	return _listEnemiesInfo;
+}
+
 void CMap::getMatchedNodeObject(NodeObject * o)
 {
 	auto matched = _mapObject[o->_objectID];
@@ -486,7 +491,7 @@ void CMap::loadEnemies(std::string path)
 		
 		auto position = parseElement(pos);
 		
-		_listEnemiesInfo.push_back(EnemyInfo(id, position.first, position.second, std::stoi(patrolwidth), std::stoi(patrolheight), std::stoi(direction)));
+		_listEnemiesInfo.push_back(EnemyInfo(id, std::stoi(type), position.first, position.second, std::stoi(patrolwidth), std::stoi(patrolheight), std::stoi(direction)));
 	}
 }
 

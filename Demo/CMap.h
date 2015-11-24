@@ -40,12 +40,14 @@ struct Tile
 struct EnemyInfo
 {
 	int _id;
+	int _type;
 	int _x, _y;
 	int _patrolWidth, _patrolHeight;
 	int _direction;
 
-	EnemyInfo(int id, int x, int y, int patrolwidth, int patrolheight, int direction) :
+	EnemyInfo(int id,int type, int x, int y, int patrolwidth, int patrolheight, int direction) :
 		_id(id),
+		_type(type),
 		_x(x), _y(y),
 		_patrolWidth(patrolwidth), _patrolHeight(patrolheight),
 		_direction(direction) {}
@@ -67,6 +69,7 @@ public:
 	std::list<NodeObject*> getLisNodetObjectInViewPort();
 	std::list<GameObject*> getListGameObjectInViewPort();
 	std::map<int, GameObject*> getMapObject();
+	std::list<EnemyInfo> getListEnemiesInfo();
 
 	void getMatchedNodeObject(NodeObject* o);
 
