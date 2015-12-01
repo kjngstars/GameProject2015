@@ -4,7 +4,6 @@
 #define SCREEN_HEIGHT 600
 
 #define FPS 60
-
 #define APP_TITLE "Game"
 
 //macro to detect key presses

@@ -24,9 +24,12 @@
     <ClInclude Include="CGame.h" />
     <ClInclude Include="CGraphics.h" />
     <ClInclude Include="CLuigi\CLuigi.h" />
+    <ClInclude Include="CLuigi\CLuigiBullet.h" />
+    <ClInclude Include="CLuigi\CSPoint.h" />
     <ClInclude Include="CLuigi\LuigiConstant.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CObject.h" />
+    <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="DirectSound.h" />
@@ -44,10 +47,13 @@
     <ClCompile Include="CGame\CGameUpdate.cpp" />
     <ClCompile Include="CGraphics.cpp" />
     <ClCompile Include="CLuigi\CLuigi.cpp" />
+    <ClCompile Include="CLuigi\CLuigiBullet.cpp" />
     <ClCompile Include="CLuigi\CLuigi_Render.cpp" />
     <ClCompile Include="CLuigi\CLuigi_Update.cpp" />
+    <ClCompile Include="CLuigi\CSPoint.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="DirectSound.cpp" />
     <ClCompile Include="DX\CDXInput.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -59,14 +65,19 @@
     <Text Include="temp.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Content\Luigi\Luigi.png" />
+    <Image Include="Content\Luigi\Luigi.png">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </Image>
     <Image Include="Content\Luigi\LuigiCloth.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="Content\Map\tileset.bmp" />
+    <Image Include="Content\Map\tileset1.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Luigi\E0.fx">
       <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">

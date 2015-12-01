@@ -17,6 +17,7 @@ private:
 	CMap _map;
 	CLuigi luigi;
 	CCamera* _camera;
+	float fps;
 
 public:
 	static std::map<int, std::string> _listPathObject;
@@ -35,6 +36,6 @@ public:
 	void OnLostDevice();
 	void OnResetDevice();
 
-	void Update(float dt, CDXInput* inputDevice);
+	void Update(float dt, CDXInput* const inputDevice);
 	void Render();
 };

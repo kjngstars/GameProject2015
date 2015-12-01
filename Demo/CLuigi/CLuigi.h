@@ -2,6 +2,9 @@
 
 #include "../CObject.h"
 #include "../DX/CDXInput.h"
+#include "../Camera.h"
+#include "../CMap.h"
+#include "CLuigiBullet.h"
 
 extern enum LuigiType;
 extern enum LuigiState;
@@ -35,19 +38,27 @@ private:
 	int direction = 0;
 	D3DXVECTOR2 velocity;
 
-	void Update_Normal(float elapsedTime, CDXInput* inputDevice);
+	void Update_Normal(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap);
 	void Update_Normal_GhostTime(float elapsedTime);
 	void Update_Normal_InvincibleTime(float elapsedTime);
-	void Update_Normal_MoveType(CDXInput* inputDevice);
-	void Update_Normal_Velocity(float elapsedTime, CDXInput* inputDevice);
-	void Update_Normal_DelayTime(float elapsedTime, CDXInput* inputDevice);
-	void Update_Normal_Frame(float elapsedTime, CDXInput* inputDevice);
+	void Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevice);
+	void Update_Normal_Velocity(float elapsedTime, CDXInput* const inputDevice);
+	void Update_Normal_Collision(float elapsedTime, CMap* const pMap);
+	void Update_Normal_DelayTime(float elapsedTime, CDXInput* const inputDevice);
+	void Update_Normal_Frame(float elapsedTime, CDXInput* const inputDevice);
 	void Update_Normal_SourceRect();
 	void Update_Normal_Scale();
 
 	void IncreaseVelocityX(float elapsedTime, float limit);
 	void DecreaseVelocityX(float elapsedTime, float k);
-	void IncreaseVelocityY(float elapsedTime, float k);
+	void DecreaseVelocityY(float elapsedTime, float k);
+
+	void CollisionLine(float elapsedTime,
+		std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>>* const listLine);
+	void CLuigi::CollisionLineX(float elapsedTime, float collisionTime,
+		D3DXVECTOR2 point1, D3DXVECTOR2 point2, float normalX, float normalY);
+	void CLuigi::CollisionLineY(float elapsedTime, float collisionTime,
+		D3DXVECTOR2 point1, float normalX, float normalY);
 
 	void Update_GrowToBig(float elapsedTime);
 	void Update_GrowToFire(float elapsedTime);
@@ -63,13 +74,15 @@ private:
 	float GetWSrcRect() { return float(this->sourceRect.right - this->sourceRect.left); }
 	float GetHSrcRect() { return float(this->sourceRect.bottom - this->sourceRect.top); }
 
+	void StopJump();
+
 public:
 	CLuigi() {}
 	~CLuigi();
 
 	void Initialize(IDirect3DDevice9* pD3DDevice);
-	void Update(float elapsedTime, CDXInput* inputDevice);
-	void Render(ID3DXSprite* pSprite);
+	void Update(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap);
+	void Render(ID3DXSprite* pSprite, CCamera* const pCamera);
 
 	void OnLostDevice();
 	void OnResetDevice();
@@ -80,7 +93,9 @@ public:
 	void GoToHeaven();
 	void test();
 
-	int GetPosition() { return this->state; }
+	BoudingBox getBox();
+
+	D3DXVECTOR2 GetPosition() { return this->_position; }
 	int GetState() { return this->state; }
 	int GetMoveType() { return this->moveType; }
 	float GetDelayTime() { return this->delayTime; }

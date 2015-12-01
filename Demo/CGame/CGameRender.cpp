@@ -1,6 +1,5 @@
 #include "../CGame.h"
 
-
 void CGame::Render()
 {
 	CGraphics::GetInstancePtr()->getD3dx9Device()->Clear(0, NULL,
@@ -12,8 +11,12 @@ void CGame::Render()
 	_map.drawBackground();
 	_map.drawObject();
 
-
-	this->luigi.Render(CGraphics::GetInstancePtr()->GetSprite());
+#pragma region luigi
+	this->luigi.Render(
+		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
+	CLuigiBulletManager::Render(
+		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
+#pragma endregion
 
 #pragma region text
 	MATRIX matTransform;
@@ -23,12 +26,17 @@ void CGame::Render()
 	RECT formatRect = { 0,0,800,600 };
 
 	std::string str =
+		"FPS: " + std::to_string(this->fps) + "\n" +
 		"State: " + std::to_string(this->luigi.GetState()) + "\n" +
 		"MoveType: " + std::to_string(this->luigi.GetMoveType()) + "\n" +
 		"DelayTime: " + std::to_string(this->luigi.GetDelayTime()) + "\n" +
 		"Direction: " + std::to_string(this->luigi.GetDirection()) + "\n" +
 		"Velocity: " + std::to_string(this->luigi.GetVelocity().x) + " " +
-		std::to_string(this->luigi.GetVelocity().y) + "\n";
+		std::to_string(this->luigi.GetVelocity().y) + "\n" +
+		"Position: " + std::to_string(this->luigi.GetPosition().x) + " " +
+		std::to_string(this->luigi.GetPosition().y) + "\n" +
+		"Camera: " + std::to_string(this->_camera->getPointTransform(0, 0).x) + " " +
+		std::to_string(this->_camera->getPointTransform(0, 0).y) + "\n";
 
 	this->pDefaultFont->DrawText(
 		CGraphics::GetInstancePtr()->GetSprite(),

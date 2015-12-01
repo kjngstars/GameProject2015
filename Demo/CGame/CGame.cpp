@@ -8,6 +8,7 @@ CGame::CGame()
 
 CGame::~CGame()
 {
+	CLuigiBulletManager::Destroy();
 	SAFE_RELEASE(this->pDefaultFont);
 }
 
@@ -18,9 +19,9 @@ void CGame::GameInit()
 
 	//map
 	_map.init("./content/map/map1-1.txt", "./content/map/tileset1.png");
-	_map.loadMapObject("content/map/objecttest.txt");
-	_map.loadQuadTree("content/map/quadtest.txt");
-	
+	_map.loadMapObject("content/map/object-1.txt");
+	_map.loadQuadTree("content/map/quadtree-1.txt");
+
 	//camera
 	_camera = _map.getCamera();
 
@@ -41,6 +42,7 @@ void CGame::GameInit()
 
 #pragma region luigi
 	this->luigi.Initialize(CGraphics::GetInstancePtr()->GetDevice());
+	CLuigiBulletManager::Initialize(CGraphics::GetInstancePtr()->GetDevice());
 #pragma endregion
 }
 
@@ -160,7 +162,7 @@ void CGame::ToggleFullScreen()
 
 		HR(CGraphics::GetInstancePtr()->GetDevice()->Reset(
 			CGraphics::GetInstancePtr()->GetD3DPP()));
-		
+
 		this->OnResetDevice();
 	}
 }

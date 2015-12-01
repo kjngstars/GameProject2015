@@ -64,7 +64,7 @@ public:
 	void drawBackground();
 	void drawObject();
 
-	std::list<NodeObject*> getLisNodetObjectInViewPort();
+	std::list<NodeObject*> getListNodeObjectInViewPort();
 	std::list<GameObject*> getListGameObjectInViewPort();
 	std::map<int, GameObject*> getMapObject();
 
@@ -75,6 +75,16 @@ public:
 	//auxilary function
 	std::string getText(XMLElement* element, std::string tag);
 	std::pair<int, int> parseElement(std::string str);
+
+	float GetMapWidthSize() { return this->_mapWidth*this->_mapSize*this->_tileSize; }
+	float GetMapHeightSize() { return this->_mapHeight*this->_tileSize; }
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> GetListLine()
+	{
+		return this->listLine;
+	}
+
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> GetListLineWithoutQuadtree();
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> GetListLineWithQuadtree();
 
 private:
 	TEXTURE _tileSet;
@@ -90,12 +100,14 @@ private:
 	int _tileSize;
 	int _mapSize;
 
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> listLine;
+
 	QuadTree* _quadTree;
 
 	CCamera* _camera;
 
 	//draw invidual game object
-	void drawGameObject(GameObject* obj,CCamera* cam);
+	void drawGameObject(GameObject* obj, CCamera* cam);
 
 	void makeQuadTree(std::map<int, QuadNode*> listQuadNode);
 };

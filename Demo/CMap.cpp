@@ -4,7 +4,7 @@
 
 
 CMap::CMap() :_tileSize(64)
-{		
+{
 }
 
 void CMap::init(std::string fileMap, std::string fileTileSet)
@@ -24,7 +24,7 @@ void CMap::init(std::string fileMap, std::string fileTileSet)
 	{
 		content += line;
 	}
-	
+
 	//parse content
 	std::smatch m;
 	std::regex reg1("<.+ w=\"([0-9]+)\" h=\"([0-9]+)\" s=\"([0-9]+)\">");
@@ -49,12 +49,12 @@ void CMap::init(std::string fileMap, std::string fileTileSet)
 	{
 		_tileIndex.insert(_tileList.at(i));
 	}
-	
+
 	//camera
-	_camera = new CCamera(0, _mapWidth*_mapSize * 64);	
+	_camera = new CCamera(0, _mapWidth*_mapSize * 64);
 
 	//add to list tile map 4 drawing
-	
+
 	int index{};
 	int count{};
 
@@ -71,7 +71,6 @@ void CMap::init(std::string fileMap, std::string fileTileSet)
 			_listTileMap.push_back(Tile(x, y, index));
 		}
 	}
-
 }
 
 void CMap::loadMapObject(std::string fileMapObject)
@@ -84,7 +83,7 @@ void CMap::loadMapObject(std::string fileMapObject)
 	//XMLNode* root = xmlDoc.RootElement();
 
 	if (root == nullptr)
-	{		
+	{
 		MessageBox(0, "Invalid file map", 0, 0);
 		PostQuitMessage(0);
 	}
@@ -105,16 +104,16 @@ void CMap::loadMapObject(std::string fileMapObject)
 		result = pElement->QueryIntAttribute("id", &id);
 
 		if (result != XMLError::XML_NO_ERROR)
-		{			
+		{
 			break;
 		}
 
 		category = pElement->Attribute("category");
 
 		if (category == nullptr)
-		{			
+		{
 			break;
-		}				
+		}
 
 		std::string str(category);
 
@@ -142,7 +141,7 @@ void CMap::loadMapObject(std::string fileMapObject)
 		if (str == "block")
 		{
 			std::vector<SubObject*> group;
-			
+
 
 			//parse two first child element
 			childElement = pElement->FirstChildElement("pos");
@@ -155,26 +154,26 @@ void CMap::loadMapObject(std::string fileMapObject)
 
 			//parse the rest sub-object
 			XMLElement* subObject = nullptr;
-			
+
 			subObject = pElement->FirstChildElement("subobj");
 
 			while (subObject != nullptr)
 			{
 				std::string pos, size, type;
-				
+
 				XMLElement *seqTag = nullptr;
 				seqTag = subObject->FirstChildElement("seq");
 
 				if (seqTag != nullptr)
 				{
 					std::string n = seqTag->Attribute("n");
-										
+
 					type = getText(seqTag, "t");
 					pos = getText(seqTag, "pos");
 					size = getText(seqTag, "size");
-										
+
 					auto p = parseElement(pos);
-					
+
 					std::string path = CGame::_listPathObject[std::stoi(type)];
 					SubObject* subObj = new SubObject(p.first, p.second - 232, std::stoi(type), std::stoi(n), SubObject::ObjectClassify::sequences, path);
 					group.push_back(subObj);
@@ -185,7 +184,7 @@ void CMap::loadMapObject(std::string fileMapObject)
 					type = getText(subObject, "t");
 					pos = getText(subObject, "pos");
 					size = getText(subObject, "size");
-					
+
 					auto p = parseElement(pos);
 
 					std::string path = CGame::_listPathObject[std::stoi(type)];
@@ -224,11 +223,28 @@ void CMap::loadMapObject(std::string fileMapObject)
 		//go to next sibling
 		pElement = pElement->NextSiblingElement("object");
 	}
+
+	int mapHeightSize = this->GetMapHeightSize();
+	for (auto& object : this->_mapObject)
+	{
+		std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> listLine_temp =
+			object.second->getListPointCollide();
+
+		for (int j = 0;j < listLine_temp.size();j++)
+		{
+			listLine_temp.at(j).first.y = mapHeightSize - listLine_temp.at(j).first.y;
+			listLine_temp.at(j).second.y = mapHeightSize - listLine_temp.at(j).second.y;
+
+			listLine_temp.at(j).first.y != listLine_temp.at(j).second.y ?
+				this->listLine.push_back(listLine_temp.at(j)) :
+				this->listLine.insert(listLine.begin(), listLine_temp.at(j));
+		}
+	}
 }
 
 void CMap::drawBackground()
 {
-	
+
 	for (auto& tile : _listTileMap)
 	{
 		RECT r;
@@ -242,31 +258,31 @@ void CMap::drawBackground()
 
 		DRAW(_tileSet, &r, nullptr, &pos, D3DCOLOR_XRGB(255, 255, 255));
 	}
-			
+
 }
 
 void CMap::drawObject()
-{	
+{
 	_listGameObjectInViewPort.clear();
 
-	auto listNodeObjectInViewPort = this->getLisNodetObjectInViewPort();
-	
+	auto listNodeObjectInViewPort = this->getListNodeObjectInViewPort();
+
 	/*for (auto& i : _mapObject)
 	{
 		this->drawGameObject(i.second,_camera);
 	}*/
-	
-	std::for_each(listNodeObjectInViewPort.cbegin(), listNodeObjectInViewPort.cend(), 
-				 std::bind(&CMap::getMatchedNodeObject, this, _1));
-	
+
+	std::for_each(listNodeObjectInViewPort.cbegin(), listNodeObjectInViewPort.cend(),
+		std::bind(&CMap::getMatchedNodeObject, this, _1));
+
 	for (auto& i : _listGameObjectInViewPort)
 	{
-	this->drawGameObject(i,_camera);
+		this->drawGameObject(i, _camera);
 	}
 
 }
 
-std::list<NodeObject*> CMap::getLisNodetObjectInViewPort()
+std::list<NodeObject*> CMap::getListNodeObjectInViewPort()
 {
 	BoudingBox viewport;
 	viewport._x = _camera->_position.x;
@@ -324,7 +340,7 @@ std::pair<int, int> CMap::parseElement(std::string str)
 {
 	int commaIndex = str.find(',');
 	std::string xw = str.substr(1, commaIndex - 1);
-	
+
 	int closeBraceIndex = str.find('}');
 	std::string yh = str.substr(commaIndex + 1, closeBraceIndex - commaIndex - 1);
 
@@ -358,7 +374,7 @@ void CMap::makeQuadTree(std::map<int, QuadNode*> listQuadNode)
 			_quadTree = new QuadTree(i.second);
 		}
 		else
-		{	
+		{
 			//get parrent id
 			int parentID = i.second->getParrentID();
 
@@ -393,7 +409,7 @@ void CMap::makeQuadTree(std::map<int, QuadNode*> listQuadNode)
 
 void CMap::loadQuadTree(std::string path)
 {
-	
+
 	tinyxml2::XMLDocument xmlDoc;
 	xmlDoc.LoadFile(path.c_str());
 
@@ -417,7 +433,7 @@ void CMap::loadQuadTree(std::string path)
 		pos = getText(pElement, "pos");
 		size = getText(pElement, "size");
 
-		XMLElement* listObj = pElement->FirstChildElement("list-object");				
+		XMLElement* listObj = pElement->FirstChildElement("list-object");
 
 		if (listObj != nullptr)
 		{
@@ -426,7 +442,7 @@ void CMap::loadQuadTree(std::string path)
 			while (idElement != nullptr)
 			{
 				std::string text = idElement->GetText();
-				
+
 				//create node objct
 				auto obj = _mapObject[std::stoi(text)];
 				auto box = obj->getBox();
@@ -436,7 +452,7 @@ void CMap::loadQuadTree(std::string path)
 				//go to next sibling
 				idElement = idElement->NextSiblingElement("id");
 			}
-						
+
 		}
 
 		//add to list quadnode			
@@ -483,11 +499,57 @@ void CMap::loadEnemies(std::string path)
 		std::string direction = getText(pElement, "direction");
 
 		pElement = pElement->NextSiblingElement("enemy");
-		
+
 		auto position = parseElement(pos);
-		
+
 		_listEnemiesInfo.push_back(EnemyInfo(id, position.first, position.second, std::stoi(patrolwidth), std::stoi(patrolheight), std::stoi(direction)));
 	}
 }
 
+std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> CMap::GetListLineWithoutQuadtree()
+{
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> result;
+	int mapHeightSize = this->GetMapHeightSize();
 
+	for (auto& object : this->_mapObject)
+	{
+		std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> listLine_temp =
+			object.second->getListPointCollide();
+
+		for (auto& line : listLine_temp)
+		{
+			line.first.y = mapHeightSize - line.first.y;
+			line.second.y = mapHeightSize - line.second.y;
+
+			line.first.y != line.second.y ?
+				result.push_back(line) :
+				result.insert(result.begin(), line);
+		}
+	}
+
+	return result;
+}
+
+std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> CMap::GetListLineWithQuadtree()
+{
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> result;
+	int mapHeightSize = this->GetMapHeightSize();
+	
+	for (auto& object : this->_listGameObjectInViewPort)
+	{
+		std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> listLine_temp =
+			object->getListPointCollide();
+
+		for (auto& line : listLine_temp)
+		{
+			line.first.y = mapHeightSize - line.first.y;
+			line.second.y = mapHeightSize - line.second.y;
+
+			line.first.y != line.second.y ?
+				result.push_back(line) :
+				result.insert(result.begin(), line);
+		}
+	}
+
+	return result;
+}

@@ -97,7 +97,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// main message loop
 	MSG message;
 
-	float time_per_frame = 1000.0f / FPS;
+	float time_per_frame;
+	if (FPS > 0.0f)
+		time_per_frame = 1000.0f / FPS;
+	else
+		time_per_frame = 0.0f;
 
 	LARGE_INTEGER frequency;
 	LARGE_INTEGER start;

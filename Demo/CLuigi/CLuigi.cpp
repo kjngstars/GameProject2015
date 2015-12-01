@@ -1,30 +1,32 @@
 #include "CLuigi.h"
 #include "LuigiConstant.h"
+#include "CSPoint.h"
 
 CLuigi::~CLuigi()
 {
 	SAFE_RELEASE(this->pEffect);
 	SAFE_RELEASE(this->luigiCloth);
+	CSPointManager::Destroy();
 }
 
 void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
 {
 	D3DXIMAGE_INFO info;
 	HR(D3DXGetImageInfoFromFile("./Content/Luigi/Luigi.png", &info));
-	D3DXCreateTextureFromFileEx(
+	HR(D3DXCreateTextureFromFileEx(
 		pD3DDevice, "./Content/Luigi/Luigi.png",
 		info.Width, info.Height, D3DX_DEFAULT, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT,
-		0, &info, 0, &this->_texture);
+		0, &info, 0, &this->_texture));
 
 	HR(D3DXGetImageInfoFromFile("./Content/Luigi/LuigiCloth.png", &info));
-	D3DXCreateTextureFromFileEx(
+	HR(D3DXCreateTextureFromFileEx(
 		pD3DDevice, "./Content/Luigi/LuigiCloth.png",
 		info.Width, info.Height, D3DX_DEFAULT, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT,
-		0, &info, 0, &this->luigiCloth);
+		0, &info, 0, &this->luigiCloth));
 
 	ID3DXBuffer* errors = 0;
 	D3DXCreateEffectFromFile(
@@ -39,7 +41,7 @@ void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
 
 	this->_rotate = 0.0f;
 	this->_scale = { 1.0f, 1.0f };
-	this->_position = { 400.0f,600.0f };
+	this->_position = { 0.0f, 600.0f };
 
 	this->type = LuigiType::Small;
 	this->state = LuigiState::Normal;
@@ -60,6 +62,8 @@ void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
 
 	this->direction = LUIGI_DIRECTION_RIGHT;
 	this->velocity = { 0.0f,0.0f };
+
+	CSPointManager::Initialize(pD3DDevice);
 }
 
 void CLuigi::OnLostDevice()
@@ -145,4 +149,33 @@ void CLuigi::test()
 {
 	this->hue = 0.0f;
 	this->invincibleTime = LUIGI_INVINCIBLETIME;
+}
+
+BoudingBox CLuigi::getBox()
+{
+	float height;
+
+	if (this->type == LuigiType::Small)
+		height = LUIGI_HEIGHTSIZE;
+	else
+		this->frame == 1 ?
+		height = LUIGI_HEIGHTSIZE : height = BIGLUIGI_HEIGHTSIZE;
+
+	return BoudingBox(
+		this->_position.x - LUIGI_WIDTHSIZE / 2.0f,
+		this->_position.y + height,
+		LUIGI_WIDTHSIZE, height,
+		this->velocity.x, this->velocity.y);
+}
+
+void CLuigi::StopJump()
+{
+	if (this->moveType == LuigiMoveType::Jumping)
+	{
+		this->moveType = LuigiMoveType::Running;
+		this->elapsedTime = this->delayTime;
+		if (this->fDelayTime != 0.0f)
+			this->fDelayTime = 0.0f;
+		this->_scale.x = this->direction*std::abs(this->_scale.x);
+	}
 }

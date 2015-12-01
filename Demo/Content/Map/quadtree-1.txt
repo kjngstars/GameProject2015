@@ -20,7 +20,7 @@
     <pos>{0,416}</pos>
     <size>{1536,208}</size>
     <list-object>
-      <id>68</id>
+      <id>81</id>
     </list-object>
   </node>
   <node id="34">
@@ -31,8 +31,13 @@
     <pos>{0,624}</pos>
     <size>{1536,208}</size>
     <list-object>
-      <id>68</id>
-      <id>69</id>
+      <id>81</id>
+      <id>93</id>
+      <id>136</id>
+      <id>178</id>
+      <id>179</id>
+      <id>186</id>
+      <id>190</id>
     </list-object>
   </node>
   <node id="35">

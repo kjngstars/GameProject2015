@@ -1,5 +1,6 @@
 #include "CLuigi.h"
 #include "LuigiConstant.h"
+#include "CSPoint.h"
 
 void CLuigi::Render_Normal(ID3DXSprite* pSprite)
 {
@@ -60,19 +61,22 @@ void CLuigi::Render_Die(ID3DXSprite* pSprite)
 		0, 0, this->color));
 }
 
-void CLuigi::Render(ID3DXSprite* pSprite)
+void CLuigi::Render(ID3DXSprite* pSprite, CCamera* const pCamera)
 {
 	MATRIX matTransform;
 
 	this->_anchorPoint = D3DXVECTOR2(this->GetWSrcRect() / 2.0f,
 		this->GetHSrcRect() / 2.0f);
 
+	D3DXVECTOR2 position_temp = pCamera->getPointTransform(
+		this->_position.x, this->_position.y);
+
 	D3DXMatrixTransformation2D(
 		&matTransform,
 		&this->_anchorPoint, 0, &this->_scale,
 		&this->_anchorPoint, (float)this->_rotate,
-		&D3DXVECTOR2(this->_position.x - this->_anchorPoint.x,
-			this->_position.y - this->GetHSrcRect()));
+		&D3DXVECTOR2(position_temp.x - this->_anchorPoint.x,
+			position_temp.y - this->GetHSrcRect()));
 	pSprite->SetTransform(&matTransform);
 
 	switch (this->state)
@@ -107,4 +111,6 @@ void CLuigi::Render(ID3DXSprite* pSprite)
 	}
 	break;
 	}
+
+	CSPointManager::Render(pSprite, pCamera);
 }

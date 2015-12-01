@@ -122,8 +122,7 @@ float4 PS_main(VS_OUTPUT input) : COLOR
 		result.x += hue;
 		if (result.x > 359.0f)
 			result.x -= 359.0f;
-
-		if (result.x < 0.0f)
+		else if (result.x < 0.0f)
 			result.x += 359.0f;
 
 		result.rgb = HSVToRGB(result.x, result.y, result.z);

@@ -1,5 +1,11 @@
 #include "CLuigi.h"
 #include "LuigiConstant.h"
+#include <vector>
+#include <list>
+#include "../GameObject.h"
+#include "../Collision/Collision.h"
+#include "CLuigiBullet.h"
+#include "CSPoint.h"
 
 static RunningFlag runningFlag = RunningFlag::RunningFlag0;
 static JumpingFlag jumpingFlag = JumpingFlag::JumpingFlag0;
@@ -12,22 +18,21 @@ int GetSignNum(float x)
 		return 1;
 }
 
-void CLuigi::Update_Normal(float elapsedTime, CDXInput* inputDevice)
+void CLuigi::Update_Normal(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap)
 {
-	this->Update_Normal_MoveType(inputDevice);
+	this->Update_Normal_MoveType(elapsedTime, inputDevice);
 	this->Update_Normal_GhostTime(elapsedTime);
 	this->Update_Normal_InvincibleTime(elapsedTime);
 	this->Update_Normal_Velocity(elapsedTime, inputDevice);
+	this->Update_Normal_Collision(elapsedTime, pMap);
 	this->Update_Normal_DelayTime(elapsedTime, inputDevice);
 	this->Update_Normal_Frame(elapsedTime, inputDevice);
 	this->Update_Normal_SourceRect();
 	this->Update_Normal_Scale();
 
-	this->_position += this->velocity*elapsedTime;
-
-	if (this->_position.y>600.0f)
+	if (this->_position.y < 0.0f)
 	{
-		this->_position.y = 600.0f;
+		this->_position.y = 0.0f;
 		this->velocity.y = 0;
 		this->moveType = LuigiMoveType::Running;
 		this->elapsedTime = this->delayTime;
@@ -44,6 +49,8 @@ void CLuigi::Update_Normal(float elapsedTime, CDXInput* inputDevice)
 		this->GoToHeaven();
 	else if (inputDevice->KeyPress(DIK_5))
 		this->test();
+
+	CSPointManager::Update(elapsedTime);
 }
 
 void CLuigi::Update_Normal_GhostTime(float elapsedTime)
@@ -68,18 +75,19 @@ void CLuigi::Update_Normal_InvincibleTime(float elapsedTime)
 	{
 		this->invincibleTime -= elapsedTime;
 
-		this->hue += 20*this->invincibleTime / LUIGI_INVINCIBLETIME;
-		if (this->hue > 360.0f)
+		this->hue += 10 * this->invincibleTime / LUIGI_INVINCIBLETIME;
+		if (this->hue > 359.0f)
 			this->hue = 0.0f;
 
 		if (this->invincibleTime < 0.0f)
-		{
 			this->invincibleTime = 0.0f;
-		}
+
+		CSPointManager::AddPoint(elapsedTime,
+			this->_position, this->getBox()._h);
 	}
 }
 
-void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
+void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevice)
 {
 	switch (this->moveType)
 	{
@@ -88,7 +96,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 		if (inputDevice->KeyPress(LUIGI_KEYFIRE))
 		{
 			if (this->fDelayTime == 0.0f &&
-				this->type == LuigiType::Fire)
+				this->type == LuigiType::Fire&&
+				CLuigiBulletManager::Shoot(this->_position, this->direction))
 				this->fDelayTime = LUIGI_FDELAYTIME;
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPB))
@@ -101,7 +110,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 			else
 				this->index = 5;
 
-			this->velocity.y = LUIGI_JUMPVELOCITYY0;
+			this->velocity.y = LUIGI_JUMPVELOCITYY0 +
+				LUIGI_DACCELERATIONY*elapsedTime;
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -111,7 +121,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 				jumpingFlag = JumpingFlag::JumpingFlag3 :
 				jumpingFlag = JumpingFlag::JumpingFlag0;
 
-			this->velocity.y = LUIGI_JUMPVELOCITYY1;
+			this->velocity.y = LUIGI_JUMPVELOCITYY1 +
+				LUIGI_DACCELERATIONY*elapsedTime;
 		}
 		else if (!inputDevice->KeyDown(LUIGI_KEYDOWN) &&
 			(inputDevice->KeyDown(LUIGI_KEYLEFT) ||
@@ -131,7 +142,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 		if (inputDevice->KeyPress(LUIGI_KEYFIRE))
 		{
 			if (this->fDelayTime == 0.0f &&
-				this->type == LuigiType::Fire)
+				this->type == LuigiType::Fire &&
+				CLuigiBulletManager::Shoot(this->_position, this->direction))
 				this->fDelayTime = LUIGI_FDELAYTIME;
 			else
 			{
@@ -152,6 +164,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 			std::abs(this->velocity.x) >= LUIGI_LIMITVELOCITYX0 ?
 				this->velocity.y = LUIGI_JUMPVELOCITYY1 :
 				this->velocity.y = LUIGI_JUMPVELOCITYY0;
+
+			this->velocity.y += LUIGI_DACCELERATIONY*elapsedTime;
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -159,7 +173,8 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 
 			if (std::abs(this->velocity.x) >= LUIGI_LIMITVELOCITYX0)
 			{
-				this->velocity.y = LUIGI_JUMPVELOCITYY2;
+				this->velocity.y = LUIGI_JUMPVELOCITYY2 +
+					LUIGI_DACCELERATIONY*elapsedTime;
 
 				this->delayTime <= LUIGI_DELAYTIME0 ?
 					jumpingFlag = JumpingFlag::JumpingFlag1 :
@@ -167,25 +182,37 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 			}
 			else
 			{
-				this->velocity.y = LUIGI_JUMPVELOCITYY1;
+				this->velocity.y = LUIGI_JUMPVELOCITYY1 +
+					LUIGI_DACCELERATIONY*elapsedTime;
+
 				jumpingFlag = JumpingFlag::JumpingFlag0;
 			}
 
 			if (inputDevice->KeyDown(LUIGI_KEYDOWN))
 				jumpingFlag = JumpingFlag::JumpingFlag3;
 		}
-		else if (this->velocity == D3DXVECTOR2(0.0f, 0.0f))
+		else if (this->velocity.x == 0.0f)
 			this->moveType = LuigiMoveType::Standing;
 	}
 	break;
 
 	case LuigiMoveType::Jumping:
 	{
-		if (inputDevice->KeyPress(LUIGI_KEYFIRE) &&
-			jumpingFlag != JumpingFlag::JumpingFlag2)
+		if (jumpingFlag != JumpingFlag::JumpingFlag2)
+		{
+			if (jumpingFlag != JumpingFlag::JumpingFlag3 &&
+				inputDevice->KeyPress(LUIGI_KEYFIRE) &&
+				this->fDelayTime == 0.0f &&
+				this->type == LuigiType::Fire &&
+				CLuigiBulletManager::Shoot(this->_position, this->direction))
+				this->fDelayTime = LUIGI_FDELAYTIME;
+		}
+		else
 		{
 			if (this->fDelayTime == 0.0f &&
-				this->type == LuigiType::Fire)
+				this->type == LuigiType::Fire &&
+				CLuigiBulletManager::Shoot(this->_position,
+					this->_scale.x / std::abs(this->_scale.x)))
 				this->fDelayTime = LUIGI_FDELAYTIME;
 		}
 	}
@@ -193,13 +220,13 @@ void CLuigi::Update_Normal_MoveType(CDXInput* inputDevice)
 	}
 }
 
-void CLuigi::Update_Normal_Velocity(float elapsedTime, CDXInput* inputDevice)
+void CLuigi::Update_Normal_Velocity(float elapsedTime, CDXInput* const inputDevice)
 {
 	switch (this->moveType)
 	{
 	case LuigiMoveType::Standing:
 	{
-
+		this->DecreaseVelocityY(elapsedTime, 1.0f);
 	}
 	break;
 
@@ -267,6 +294,8 @@ void CLuigi::Update_Normal_Velocity(float elapsedTime, CDXInput* inputDevice)
 		}
 		break;
 		}
+
+		this->DecreaseVelocityY(elapsedTime, 1.0f);
 	}
 	break;
 
@@ -295,32 +324,32 @@ void CLuigi::Update_Normal_Velocity(float elapsedTime, CDXInput* inputDevice)
 		case JumpingFlag::JumpingFlag0:
 		{
 			inputDevice->KeyDown(LUIGI_KEYJUMPA) ?
-				this->IncreaseVelocityY(elapsedTime, 1.0f) :
-				this->IncreaseVelocityY(elapsedTime, 2.0f);
+				this->DecreaseVelocityY(elapsedTime, 1.0f) :
+				this->DecreaseVelocityY(elapsedTime, 2.0f);
 		}
 		break;
 
 		case JumpingFlag::JumpingFlag1:
 		{
 			inputDevice->KeyDown(LUIGI_KEYJUMPA) ?
-				this->IncreaseVelocityY(elapsedTime, 1.0f) :
-				this->IncreaseVelocityY(elapsedTime, 2.0f);
+				this->DecreaseVelocityY(elapsedTime, 1.0f) :
+				this->DecreaseVelocityY(elapsedTime, 2.0f);
 		}
 		break;
 
 		case JumpingFlag::JumpingFlag2:
 		{
 			inputDevice->KeyDown(LUIGI_KEYJUMPB) ?
-				this->IncreaseVelocityY(elapsedTime, 1.0f) :
-				this->IncreaseVelocityY(elapsedTime, 2.0f);
+				this->DecreaseVelocityY(elapsedTime, 1.0f) :
+				this->DecreaseVelocityY(elapsedTime, 2.0f);
 		}
 		break;
 
 		case JumpingFlag::JumpingFlag3:
 		{
 			inputDevice->KeyDown(LUIGI_KEYJUMPA) ?
-				this->IncreaseVelocityY(elapsedTime, 1.0f) :
-				this->IncreaseVelocityY(elapsedTime, 2.0f);
+				this->DecreaseVelocityY(elapsedTime, 1.0f) :
+				this->DecreaseVelocityY(elapsedTime, 2.0f);
 		}
 		break;
 		}
@@ -329,7 +358,27 @@ void CLuigi::Update_Normal_Velocity(float elapsedTime, CDXInput* inputDevice)
 	}
 }
 
-void CLuigi::Update_Normal_DelayTime(float elapsedTime, CDXInput* inputDevice)
+void CLuigi::Update_Normal_Collision(float elapsedTime, CMap* const pMap)
+{
+#pragma region Object
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> listLine =
+		pMap->GetListLine();				//bình th??ng
+	//	pMap->GetListLineWithoutQuadtree(); //ko có Quadtree
+	//	pMap->GetListLineWithQuadtree();	//có Quadtree
+
+	this->CollisionLine(elapsedTime, &listLine);
+
+#pragma endregion
+
+	this->_position += this->velocity*elapsedTime;
+
+	if (this->_position.x - LUIGI_WIDTHSIZE0 / 2.0f<0.0f)
+		this->_position.x = LUIGI_WIDTHSIZE0 / 2.0f;
+	else if (this->_position.x + LUIGI_WIDTHSIZE0 / 2.0f>pMap->GetMapWidthSize())
+		this->_position.x = pMap->GetMapWidthSize() - LUIGI_WIDTHSIZE0 / 2.0f;
+}
+
+void CLuigi::Update_Normal_DelayTime(float elapsedTime, CDXInput* const inputDevice)
 {
 	switch (this->moveType)
 	{
@@ -398,7 +447,7 @@ void CLuigi::Update_Normal_DelayTime(float elapsedTime, CDXInput* inputDevice)
 	}
 }
 
-void CLuigi::Update_Normal_Frame(float elapsedTime, CDXInput* inputDevice)
+void CLuigi::Update_Normal_Frame(float elapsedTime, CDXInput* const inputDevice)
 {
 	this->elapsedTime += elapsedTime;
 
@@ -482,7 +531,7 @@ void CLuigi::Update_Normal_Frame(float elapsedTime, CDXInput* inputDevice)
 			{
 			case JumpingFlag::JumpingFlag0:
 			{
-				this->velocity.y < 0.0f ?
+				this->velocity.y > 0.0f ?
 					this->index = 0 : this->index = 1;
 			}
 			break;
@@ -617,8 +666,6 @@ void CLuigi::Update_Normal_Frame(float elapsedTime, CDXInput* inputDevice)
 		{
 			if (this->fDelayTime > 0.0f)
 			{
-				this->index = 2;
-
 				this->fDelayTime -= elapsedTime;
 				if (this->fDelayTime < 0.0f)
 				{
@@ -626,43 +673,44 @@ void CLuigi::Update_Normal_Frame(float elapsedTime, CDXInput* inputDevice)
 					this->elapsedTime = this->delayTime;
 				}
 			}
-			else
+
+			switch (jumpingFlag)
 			{
-				switch (jumpingFlag)
-				{
-				case JumpingFlag::JumpingFlag0:
-				{
-					this->velocity.y < 0.0f ?
-						this->index = 0 : this->index = 1;
-				}
-				break;
-
-				case JumpingFlag::JumpingFlag1:
-				{
+			case JumpingFlag::JumpingFlag0:
+			{
+				if (this->fDelayTime > 0.0f)
 					this->index = 2;
-				}
-				break;
+				else
+					this->velocity.y > 0.0f ?
+					this->index = 0 : this->index = 1;
+			}
+			break;
 
-				case JumpingFlag::JumpingFlag2:
+			case JumpingFlag::JumpingFlag1:
+			{
+				this->index = 2;
+			}
+			break;
+
+			case JumpingFlag::JumpingFlag2:
+			{
+				if (this->elapsedTime > 0.5f*LUIGI_DELAYTIME0)
 				{
-					if (this->elapsedTime > 0.5f*LUIGI_DELAYTIME0)
-					{
-						this->index++;
+					this->index++;
 
-						if (this->index > 6)
-							this->index = 3;
+					if (this->index > 6)
+						this->index = 3;
 
-						this->elapsedTime = 0.0f;
-					}
+					this->elapsedTime = 0.0f;
 				}
-				break;
+			}
+			break;
 
-				case JumpingFlag::JumpingFlag3:
-				{
-					this->index = 7;
-				}
-				break;
-				}
+			case JumpingFlag::JumpingFlag3:
+			{
+				this->index = 7;
+			}
+			break;
 			}
 
 			this->frame = BigLuigi_Normal_Frame_Jumping[this->index];
@@ -745,14 +793,80 @@ void CLuigi::DecreaseVelocityX(float elapsedTime, float k)
 	}
 }
 
-void CLuigi::IncreaseVelocityY(float elapsedTime, float k)
+void CLuigi::DecreaseVelocityY(float elapsedTime, float k)
 {
-	if (this->velocity.y < LUIGI_LIMITVELOCITYY)
+	if (this->velocity.y > LUIGI_LIMITVELOCITYY)
 	{
-		this->velocity.y += k*LUIGI_DACCELERATIONY*elapsedTime;
+		this->velocity.y -= k*LUIGI_DACCELERATIONY*elapsedTime;
 
-		if (this->velocity.y > LUIGI_LIMITVELOCITYY)
+		if (this->velocity.y < LUIGI_LIMITVELOCITYY)
 			this->velocity.y = LUIGI_LIMITVELOCITYY;
+	}
+}
+
+void CLuigi::CollisionLine(float elapsedTime,
+	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>>* const listLine)
+{
+	float normalX, normalY;
+	int count = 0;
+
+	for (int i = 0;i < listLine->size();i++)
+	{
+		D3DXVECTOR2 point1 = listLine->at(i).first;
+		D3DXVECTOR2 point2 = listLine->at(i).second;
+
+		float collisionTime = SweptAABB(
+			elapsedTime, this->getBox(),
+			BoudingBox(point1, point2),
+			normalX, normalY);
+
+		if (collisionTime < elapsedTime)
+		{
+			point1.x == point2.x ?
+				this->CollisionLineX(
+					elapsedTime, collisionTime,
+					point1, point2, normalX, normalY) :
+				this->CollisionLineY(
+					elapsedTime, collisionTime,
+					point1, normalX, normalY);
+
+			if (this->velocity.x == 0.0f &&
+				this->moveType == LuigiMoveType::Running)
+				this->moveType = LuigiMoveType::Standing;
+		}
+		else
+			count++;
+	}
+
+	if (count == listLine->size())
+	{
+		if (this->moveType != LuigiMoveType::Jumping)
+		{
+			this->moveType = LuigiMoveType::Jumping;
+			jumpingFlag = JumpingFlag::JumpingFlag0;
+		}
+	}
+}
+
+void CLuigi::CollisionLineX(float elapsedTime, float collisionTime,
+	D3DXVECTOR2 point1, D3DXVECTOR2 point2, float normalX, float normalY)
+{
+	float height = std::abs(point1.y - point2.y);
+
+	if (this->velocity.y*elapsedTime < height &&
+		this->_position.y < point1.y)
+		this->velocity.x = (this->velocity.x*collisionTime) / elapsedTime;
+}
+
+void CLuigi::CollisionLineY(float elapsedTime, float collisionTime, D3DXVECTOR2 point1,
+	float normalX, float normalY)
+{
+	if (this->velocity.y < 0.0f &&
+		this->_position.y >= point1.y)
+	{
+		this->velocity.y = (point1.y - this->_position.y) / elapsedTime;
+
+		this->StopJump();
 	}
 }
 
@@ -890,11 +1004,11 @@ void CLuigi::Update_ShrinkToSmall(float elapsedTime)
 
 void CLuigi::Update_Die(float elapsedTime)
 {
-	if (this->velocity.y < LUIGI_LIMITVELOCITYY)
+	if (this->velocity.y > LUIGI_LIMITVELOCITYY)
 	{
-		this->velocity.y += LUIGI_DACCELERATIONY*elapsedTime;
+		this->velocity.y -= LUIGI_DACCELERATIONY*elapsedTime;
 
-		if (this->velocity.y > LUIGI_LIMITVELOCITYY)
+		if (this->velocity.y < LUIGI_LIMITVELOCITYY)
 			this->velocity.y = LUIGI_LIMITVELOCITYY;
 	}
 
@@ -917,13 +1031,13 @@ void CLuigi::Update_Die(float elapsedTime)
 	this->_position += this->velocity*elapsedTime;
 }
 
-void CLuigi::Update(float elapsedTime, CDXInput* inputDevice)
+void CLuigi::Update(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap)
 {
 	switch (this->state)
 	{
 	case LuigiState::Normal:
 	{
-		this->Update_Normal(elapsedTime, inputDevice);
+		this->Update_Normal(elapsedTime, inputDevice, pMap);
 	}
 	break;
 
