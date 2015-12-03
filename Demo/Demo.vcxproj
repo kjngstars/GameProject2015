@@ -71,6 +71,7 @@
     <Image Include="Content\Luigi\LuigiCloth.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="Content\Luigi\SPoint.png" />
     <Image Include="Content\Map\tileset.bmp" />
     <Image Include="Content\Map\tileset1.png" />
   </ItemGroup>

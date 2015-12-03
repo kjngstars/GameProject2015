@@ -186,6 +186,9 @@
     <Image Include="Content\Map\tileset1.png">
       <Filter>Content\Map</Filter>
     </Image>
+    <Image Include="Content\Luigi\SPoint.png">
+      <Filter>Content\Luigi</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Luigi\E0.fx">
