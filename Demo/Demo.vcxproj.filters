@@ -172,6 +172,15 @@
     <Text Include="temp.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="Content\Map\map1-1.txt">
+      <Filter>Content\Map</Filter>
+    </Text>
+    <Text Include="Content\Map\object-1.txt">
+      <Filter>Content\Map</Filter>
+    </Text>
+    <Text Include="Content\Map\quadtree-1.txt">
+      <Filter>Content\Map</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Luigi\Luigi.png">
