@@ -21,7 +21,7 @@ void CGame::GameInit()
 	_map.init("./content/map/map1-1.txt", "./content/map/tileset1.png");
 	_map.loadMapObject("content/map/object-1.txt");
 	_map.loadQuadTree("content/map/quadtree-1.txt");
-
+	
 	//camera
 	_camera = _map.getCamera();
 
@@ -162,7 +162,7 @@ void CGame::ToggleFullScreen()
 
 		HR(CGraphics::GetInstancePtr()->GetDevice()->Reset(
 			CGraphics::GetInstancePtr()->GetD3DPP()));
-
+		
 		this->OnResetDevice();
 	}
 }
