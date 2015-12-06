@@ -32,8 +32,12 @@
     <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSprite.h" />
-    <ClInclude Include="DirectSound.h" />
     <ClInclude Include="DX\CDXInput.h" />
+    <ClInclude Include="DX\CSound.h" />
+    <ClInclude Include="DX\CSoundManager.h" />
+    <ClInclude Include="DX\CStreamingSound.h" />
+    <ClInclude Include="DX\CWaveFile.h" />
+    <ClInclude Include="DX\dxaudio.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="QuadTree.h" />
@@ -54,8 +58,12 @@
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="Collision\Collision.cpp" />
-    <ClCompile Include="DirectSound.cpp" />
     <ClCompile Include="DX\CDXInput.cpp" />
+    <ClCompile Include="DX\CSound.cpp" />
+    <ClCompile Include="DX\CSoundManager.cpp" />
+    <ClCompile Include="DX\CStreamingSound.cpp" />
+    <ClCompile Include="DX\CWaveFile.cpp" />
+    <ClCompile Include="DX\dxaudio.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -83,6 +91,13 @@
       <FileType>Document</FileType>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Content\Sound\Die.wav" />
+    <Media Include="Content\Sound\Fire.wav" />
+    <Media Include="Content\Sound\GrowUpToBig.wav" />
+    <Media Include="Content\Sound\GrowUpToFire.wav" />
+    <Media Include="Content\Sound\Jump.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1C98503B-8C43-40F9-9BE9-817F37C2FE0B}</ProjectGuid>
@@ -165,7 +180,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxerr.lib;d3d9.lib;d3dx9.lib;dsound.lib;dinput8.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dsound.lib;dinput8.lib;dxguid.lib;dxerr.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

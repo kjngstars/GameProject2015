@@ -7,6 +7,11 @@ CLuigi::~CLuigi()
 	SAFE_RELEASE(this->pEffect);
 	SAFE_RELEASE(this->luigiCloth);
 	CSPointManager::Destroy();
+
+	if (this->pJumpSound) delete this->pJumpSound;
+	if (this->pGrowUpToBigSound) delete this->pGrowUpToBigSound;
+	if (this->pGrowUpToFireSound) delete this->pGrowUpToFireSound;
+	if (this->pFireSound) delete this->pFireSound;
 }
 
 void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
@@ -38,6 +43,14 @@ void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
 	HR(this->pEffect->SetTexture("_texture", this->_texture));
 	HR(this->pEffect->SetTexture("luigiCloth", this->luigiCloth));
 	HR(this->pEffect->SetTechnique("DefaultTechnique"));
+
+#pragma region Sound
+	this->pJumpSound = LoadSound("./Content/Sound/Jump.wav");
+	this->pGrowUpToBigSound = LoadSound("./Content/Sound/GrowUpToBig.wav");
+	this->pGrowUpToFireSound = LoadSound("./Content/Sound/GrowUpToFire.wav");
+	this->pFireSound = LoadSound("./Content/Sound/Fire.wav");
+	this->pDieSound = LoadSound("./Content/Sound/Die.wav");
+#pragma endregion
 
 	this->_rotate = 0.0f;
 	this->_scale = { 1.0f, 1.0f };
@@ -85,6 +98,7 @@ void CLuigi::GrowUpToBig()
 		this->type = LuigiType::Big;
 		this->elapsedTime = LUIGI_SDELAYTIME / 10.0f;
 		this->sDelayTime = LUIGI_SDELAYTIME;
+		PlaySound(this->pGrowUpToBigSound);
 	}
 }
 
@@ -123,6 +137,7 @@ void CLuigi::GrowUpToFire()
 		this->type = LuigiType::Big;
 		this->elapsedTime = LUIGI_SDELAYTIME / 10.0f;
 		this->sDelayTime = LUIGI_SDELAYTIME;
+		PlaySound(this->pGrowUpToFireSound);
 	}
 }
 
@@ -134,6 +149,7 @@ void CLuigi::ShrinkToSmall()
 		this->type = LuigiType::Big;
 		this->elapsedTime = LUIGI_SDELAYTIME / 10.0f;
 		this->sDelayTime = LUIGI_SDELAYTIME;
+		PlaySound(this->pGrowUpToBigSound);
 	}
 }
 
@@ -143,6 +159,7 @@ void CLuigi::GoToHeaven()
 	this->state = LuigiState::Die;
 	this->elapsedTime = LUIGI_DELAYTIME1;
 	this->velocity = { 0,LUIGI_JUMPVELOCITYY2 };
+	PlaySound(this->pDieSound);
 }
 
 void CLuigi::test()

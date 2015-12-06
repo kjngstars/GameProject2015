@@ -5,6 +5,7 @@
 #include "../Camera.h"
 #include "../CMap.h"
 #include "CLuigiBullet.h"
+#include "../DX/dxaudio.h"
 
 extern enum LuigiType;
 extern enum LuigiState;
@@ -37,6 +38,14 @@ private:
 
 	int direction = 0;
 	D3DXVECTOR2 velocity;
+
+#pragma region Sound
+	CSound* pJumpSound = 0;
+	CSound* pGrowUpToBigSound = 0;
+	CSound* pGrowUpToFireSound = 0;
+	CSound* pFireSound = 0;
+	CSound* pDieSound = 0;
+#pragma endregion
 
 	void Update_Normal(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap);
 	void Update_Normal_GhostTime(float elapsedTime);

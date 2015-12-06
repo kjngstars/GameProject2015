@@ -8,7 +8,6 @@
 #include "CMap.h"
 #include "Camera.h"
 
-
 class CGame
 {
 private:

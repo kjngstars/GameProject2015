@@ -98,7 +98,10 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 			if (this->fDelayTime == 0.0f &&
 				this->type == LuigiType::Fire&&
 				CLuigiBulletManager::Shoot(this->_position, this->direction))
+			{
 				this->fDelayTime = LUIGI_FDELAYTIME;
+				PlaySound(this->pFireSound);
+			}
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPB))
 		{
@@ -112,6 +115,8 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 
 			this->velocity.y = LUIGI_JUMPVELOCITYY0 +
 				LUIGI_DACCELERATIONY*elapsedTime;
+
+			PlaySound(this->pJumpSound);
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -123,6 +128,8 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 
 			this->velocity.y = LUIGI_JUMPVELOCITYY1 +
 				LUIGI_DACCELERATIONY*elapsedTime;
+
+			PlaySound(this->pJumpSound);
 		}
 		else if (!inputDevice->KeyDown(LUIGI_KEYDOWN) &&
 			(inputDevice->KeyDown(LUIGI_KEYLEFT) ||
@@ -144,7 +151,10 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 			if (this->fDelayTime == 0.0f &&
 				this->type == LuigiType::Fire &&
 				CLuigiBulletManager::Shoot(this->_position, this->direction))
+			{
 				this->fDelayTime = LUIGI_FDELAYTIME;
+				PlaySound(this->pFireSound);
+			}
 			else
 			{
 				if (this->fDelayTime > 0.0f)
@@ -166,6 +176,7 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 				this->velocity.y = LUIGI_JUMPVELOCITYY0;
 
 			this->velocity.y += LUIGI_DACCELERATIONY*elapsedTime;
+			PlaySound(this->pJumpSound);
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -190,6 +201,8 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 
 			if (inputDevice->KeyDown(LUIGI_KEYDOWN))
 				jumpingFlag = JumpingFlag::JumpingFlag3;
+
+			PlaySound(this->pJumpSound);
 		}
 		else if (this->velocity.x == 0.0f)
 			this->moveType = LuigiMoveType::Standing;
@@ -205,7 +218,10 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 				this->fDelayTime == 0.0f &&
 				this->type == LuigiType::Fire &&
 				CLuigiBulletManager::Shoot(this->_position, this->direction))
+			{
 				this->fDelayTime = LUIGI_FDELAYTIME;
+				PlaySound(this->pFireSound);
+			}
 		}
 		else
 		{
@@ -213,7 +229,10 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 				this->type == LuigiType::Fire &&
 				CLuigiBulletManager::Shoot(this->_position,
 					this->_scale.x / std::abs(this->_scale.x)))
+			{
 				this->fDelayTime = LUIGI_FDELAYTIME;
+				PlaySound(this->pFireSound);
+			}
 		}
 	}
 	break;

@@ -1,6 +1,7 @@
 #include <time.h>
 #include "CGraphics.h"
 #include"CGame.h"
+#include "DX\dxaudio.h"
 
 bool gameover = false;
 CGame game;
@@ -89,6 +90,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(window, SW_SHOW);
 	UpdateWindow(window);
 
+	if (!Init_DirectSound(window))
+	{
+		MessageBox(window, "Error initializing DirectSound", "Error", MB_OK);
+		return 0;
+	}
+
 	game.GameInit();
 	inputDevice.Initialize(
 		CGraphics::GetInstancePtr()->GetHInst(),
@@ -144,6 +151,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	//shutdown
+
 	delete CGraphics::GetInstancePtr();
 
 	return message.wParam;

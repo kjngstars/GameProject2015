@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\DX">
       <UniqueIdentifier>{150316e7-5c80-4669-9a91-a5f6ce1c982b}</UniqueIdentifier>
     </Filter>
@@ -46,6 +42,9 @@
     <Filter Include="Content\Map">
       <UniqueIdentifier>{9d639252-5479-4040-871c-57ddd97afe2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Sound">
+      <UniqueIdentifier>{b31a97c5-2387-4b43-b567-4e208494ebec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameConfig.h">
@@ -64,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectSound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DX\CDXInput.h">
@@ -108,15 +104,27 @@
     <ClInclude Include="CLuigi\CSPoint.h">
       <Filter>Header Files\CLuigi</Filter>
     </ClInclude>
+    <ClInclude Include="DX\CWaveFile.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\CSound.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\CStreamingSound.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\CSoundManager.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\dxaudio.h">
+      <Filter>Header Files\DX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CGraphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DX\CDXInput.cpp">
@@ -167,6 +175,21 @@
     <ClCompile Include="CLuigi\CSPoint.cpp">
       <Filter>Source Files\CLuigi</Filter>
     </ClCompile>
+    <ClCompile Include="DX\CWaveFile.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\CSound.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\CStreamingSound.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\CSoundManager.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\dxaudio.cpp">
+      <Filter>Source Files\DX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="temp.txt">
@@ -203,5 +226,22 @@
     <None Include="Content\Luigi\E0.fx">
       <Filter>Content\Luigi</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Content\Sound\Fire.wav">
+      <Filter>Content\Sound</Filter>
+    </Media>
+    <Media Include="Content\Sound\Jump.wav">
+      <Filter>Content\Sound</Filter>
+    </Media>
+    <Media Include="Content\Sound\GrowUpToBig.wav">
+      <Filter>Content\Sound</Filter>
+    </Media>
+    <Media Include="Content\Sound\GrowUpToFire.wav">
+      <Filter>Content\Sound</Filter>
+    </Media>
+    <Media Include="Content\Sound\Die.wav">
+      <Filter>Content\Sound</Filter>
+    </Media>
   </ItemGroup>
 </Project>

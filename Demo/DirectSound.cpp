@@ -278,6 +278,8 @@ CSound::CSound( LPDIRECTSOUNDBUFFER* apDSBuffer, DWORD dwDSBufferSize,
 //-----------------------------------------------------------------------------
 CSound::~CSound()
 {
+	this->Stop();
+
     for( DWORD i=0; i<m_dwNumBuffers; i++ )
     {
         SAFE_RELEASE( m_apDSBuffer[i] ); 
