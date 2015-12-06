@@ -12,6 +12,7 @@ CLuigi::~CLuigi()
 	if (this->pGrowUpToBigSound) delete this->pGrowUpToBigSound;
 	if (this->pGrowUpToFireSound) delete this->pGrowUpToFireSound;
 	if (this->pFireSound) delete this->pFireSound;
+	if (this->pDieSound) delete this->pDieSound;
 }
 
 void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
