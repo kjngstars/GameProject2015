@@ -8,9 +8,11 @@ CLuigi::~CLuigi()
 	SAFE_RELEASE(this->luigiCloth);
 	CSPointManager::Destroy();
 
-	if (this->pJumpSound) delete this->pJumpSound;
+	if (this->pJump0Sound) delete this->pJump0Sound;
+	if (this->pJump1Sound) delete this->pJump1Sound;
 	if (this->pGrowUpToBigSound) delete this->pGrowUpToBigSound;
 	if (this->pGrowUpToFireSound) delete this->pGrowUpToFireSound;
+	if (this->pCollisionEnemySound) delete this->pCollisionEnemySound;
 	if (this->pFireSound) delete this->pFireSound;
 	if (this->pDieSound) delete this->pDieSound;
 }
@@ -46,9 +48,11 @@ void CLuigi::Initialize(IDirect3DDevice9* pD3DDevice)
 	HR(this->pEffect->SetTechnique("DefaultTechnique"));
 
 #pragma region Sound
-	this->pJumpSound = LoadSound("./Content/Sound/Jump.wav");
+	this->pJump0Sound = LoadSound("./Content/Sound/Jump0.wav");
+	this->pJump1Sound = LoadSound("./Content/Sound/Jump1.wav");
 	this->pGrowUpToBigSound = LoadSound("./Content/Sound/GrowUpToBig.wav");
 	this->pGrowUpToFireSound = LoadSound("./Content/Sound/GrowUpToFire.wav");
+	this->pCollisionEnemySound = LoadSound("./Content/Sound/CollisionEnemy.wav");
 	this->pFireSound = LoadSound("./Content/Sound/Fire.wav");
 	this->pDieSound = LoadSound("./Content/Sound/Die.wav");
 #pragma endregion

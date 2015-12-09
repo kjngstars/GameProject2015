@@ -41,6 +41,7 @@
     <ClInclude Include="Enemies\CEnemiesManager.h" />
     <ClInclude Include="Enemies\CEnemy.h" />
     <ClInclude Include="Enemies\CEnemy0.h" />
+    <ClInclude Include="Enemies\CSEPoint.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="QuadTree.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="Enemies\CEnemiesManager.cpp" />
     <ClCompile Include="Enemies\CEnemy.cpp" />
     <ClCompile Include="Enemies\CEnemy0.cpp" />
+    <ClCompile Include="Enemies\CSEPoint.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -84,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Enemies\Enemy0.png" />
+    <Image Include="Content\Enemies\Star.png" />
     <Image Include="Content\Luigi\Luigi.png">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </Image>

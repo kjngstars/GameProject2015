@@ -66,8 +66,6 @@ void CSPointManager::Destroy()
 
 void CSPointManager::Update(float elapsedTime)
 {
-	srand(GetTickCount());
-
 	for (int i = 0;i < CSPointManager::listPoint.size();i++)
 	{
 		CSPointManager::listPoint.at(i).Update(elapsedTime);

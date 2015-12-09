@@ -7,9 +7,11 @@ class CEnemy0 :public CEnemy
 private:
 	static IDirect3DTexture9* texture;
 
+	D3DXCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255);
+
 	void Update_Velocity(float elapsedTime);
 	void Update_Collision(float elapsedTime, CMap* const pMap,
-		std::map<int, CEnemy*> listEnemy);
+		std::map<int, CEnemy*> listEnemyAlive);
 	void Update_SourceRect(float elapsedTime);
 
 	void CollisionLine(float elapsedTime,
@@ -20,7 +22,7 @@ private:
 		D3DXVECTOR2 point1, float normalX, float normalY);
 
 	void CollisionEnemy(float elapsedTime,
-		std::map<int, CEnemy*> listEnemy);
+		std::map<int, CEnemy*> listEnemyAlive);
 
 	float GetWSrcRect() { return float(this->sourceRect.right - this->sourceRect.left); }
 	float GetHSrcRect() { return float(this->sourceRect.bottom - this->sourceRect.top); }
@@ -32,8 +34,11 @@ public:
 	CEnemy0(EnemyInfo info);
 
 	void Update(float elapsedTime, CMap* const pMap,
-		std::map<int, CEnemy*> listEnemy);
+		std::map<int, CEnemy*> listEnemyAlive);
 	void Render(ID3DXSprite* pSprite, CCamera* const pCamera);
+
+	void Update_Died(float elapsedTime);
+	void Render_Died(ID3DXSprite* pSprite, CCamera* const pCamera);
 
 	BoudingBox GetBox();
 };

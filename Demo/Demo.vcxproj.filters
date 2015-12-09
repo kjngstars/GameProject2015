@@ -137,6 +137,9 @@
     <ClInclude Include="Enemies\CEnemy0.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Enemies\CSEPoint.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -217,6 +220,9 @@
     <ClCompile Include="Enemies\CEnemy.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Enemies\CSEPoint.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="temp.txt">
@@ -252,6 +258,9 @@
       <Filter>Content\Luigi</Filter>
     </Image>
     <Image Include="Content\Enemies\Enemy0.png">
+      <Filter>Content\Enemies</Filter>
+    </Image>
+    <Image Include="Content\Enemies\Star.png">
       <Filter>Content\Enemies</Filter>
     </Image>
   </ItemGroup>

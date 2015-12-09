@@ -110,7 +110,7 @@ void CLuigiBullet::Update(float elapsedTime, CMap* const pMap)
 #pragma endregion
 
 #pragma region enemies
-		for (auto& enemy : CEnemiesManager::GetListEnemy())
+		for (auto& enemy : CEnemiesManager::GetListEnemyAlive())
 		{
 
 			float collisionTime = SweptAABB(

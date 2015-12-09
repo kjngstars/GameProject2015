@@ -40,9 +40,11 @@ private:
 	D3DXVECTOR2 velocity;
 
 #pragma region Sound
-	CSound* pJumpSound = 0;
+	CSound* pJump0Sound = 0;
+	CSound* pJump1Sound = 0;
 	CSound* pGrowUpToBigSound = 0;
 	CSound* pGrowUpToFireSound = 0;
+	CSound* pCollisionEnemySound = 0;
 	CSound* pFireSound = 0;
 	CSound* pDieSound = 0;
 #pragma endregion

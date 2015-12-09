@@ -10,6 +10,7 @@ CGame::~CGame()
 {
 	CLuigiBulletManager::Destroy();
 	CEnemiesManager::Destroy();
+	CSEPointManager::Destroy();
 	SAFE_RELEASE(this->pDefaultFont);
 }
 
@@ -30,6 +31,7 @@ void CGame::GameInit()
 		CEnemiesManager::AddEnemy(info);
 
 	CEnemiesManager::InitializeTexture(CGraphics::GetInstancePtr()->GetDevice());
+	CSEPointManager::Initialize(CGraphics::GetInstancePtr()->GetDevice());
 #pragma endregion
 
 	//camera

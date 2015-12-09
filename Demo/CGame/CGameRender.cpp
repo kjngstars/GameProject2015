@@ -11,17 +11,19 @@ void CGame::Render()
 	_map.drawBackground();
 	_map.drawObject();
 
-#pragma region enemies
-	CEnemiesManager::Render(
-		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
-#pragma endregion enemies
-
 #pragma region luigi
 	this->luigi.Render(
 		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
 	CLuigiBulletManager::Render(
 		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
 #pragma endregion
+
+#pragma region enemies
+	CEnemiesManager::Render(
+		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
+	CSEPointManager::Render(
+		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
+#pragma endregion enemies
 
 #pragma region text
 	MATRIX matTransform;

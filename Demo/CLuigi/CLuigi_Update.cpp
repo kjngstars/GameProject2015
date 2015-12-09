@@ -117,7 +117,7 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 			this->velocity.y = LUIGI_JUMPVELOCITYY0 +
 				LUIGI_DACCELERATIONY*elapsedTime;
 
-			PlaySound(this->pJumpSound);
+			PlaySound(this->pJump1Sound);
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -130,7 +130,7 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 			this->velocity.y = LUIGI_JUMPVELOCITYY1 +
 				LUIGI_DACCELERATIONY*elapsedTime;
 
-			PlaySound(this->pJumpSound);
+			PlaySound(this->pJump0Sound);
 		}
 		else if (!inputDevice->KeyDown(LUIGI_KEYDOWN) &&
 			(inputDevice->KeyDown(LUIGI_KEYLEFT) ||
@@ -177,7 +177,7 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 				this->velocity.y = LUIGI_JUMPVELOCITYY0;
 
 			this->velocity.y += LUIGI_DACCELERATIONY*elapsedTime;
-			PlaySound(this->pJumpSound);
+			PlaySound(this->pJump1Sound);
 		}
 		else if (inputDevice->KeyPress(LUIGI_KEYJUMPA))
 		{
@@ -203,7 +203,7 @@ void CLuigi::Update_Normal_MoveType(float elapsedTime, CDXInput* const inputDevi
 			if (inputDevice->KeyDown(LUIGI_KEYDOWN))
 				jumpingFlag = JumpingFlag::JumpingFlag3;
 
-			PlaySound(this->pJumpSound);
+			PlaySound(this->pJump0Sound);
 		}
 		else if (this->velocity.x == 0.0f)
 			this->moveType = LuigiMoveType::Standing;
@@ -389,15 +389,12 @@ void CLuigi::Update_Normal_Collision(float elapsedTime, CMap* const pMap)
 	this->CollisionLine(elapsedTime, &listLine);
 #pragma endregion
 
-	bool checkIVY = this->CollisionEnemy();
+	bool checkVelocitY = this->CollisionEnemy();
 
 	this->_position += this->velocity*elapsedTime;
 
-	if (checkIVY)
-	{
-		this->IncreaseVelocityX(elapsedTime, LUIGI_LIMITVELOCITYX1);
+	if (checkVelocitY)
 		this->velocity.y = LUIGI_JUMPVELOCITYY0;
-	}
 
 	if (this->_position.x - LUIGI_WIDTHSIZE0 / 2.0f<0.0f)
 		this->_position.x = LUIGI_WIDTHSIZE0 / 2.0f;
@@ -901,22 +898,31 @@ bool CLuigi::CollisionEnemy()
 {
 	bool result = false;
 	float normalX, normalY;
-	std::map<int, CEnemy*> listEnemy = CEnemiesManager::GetListEnemy();//sss
+	std::map<int, CEnemy*> listEnemyAlive = CEnemiesManager::GetListEnemyAlive();//sss
 
-	for (auto& enemy : listEnemy)
+	for (auto& enemy : listEnemyAlive)
 	{
 		float collisionTime = SweptAABB(
 			elapsedTime, this->getBox(),
 			enemy.second->GetBox(),
 			normalX, normalY);
 
-		if (collisionTime < elapsedTime)
+		if (collisionTime < elapsedTime ||
+			this->getBox().Intersect(enemy.second->GetBox()))
 		{
 			if (this->invincibleTime>0.0f)
-				enemy.second->Die3();
-			else if (this->_position.y > enemy.second->GetBox()._y)
 			{
-				enemy.second->DescreaseHP();
+				enemy.second->Die3();
+				PlaySound(this->pCollisionEnemySound);
+			}
+			else if (this->_position.y >= enemy.second->GetBox()._y)
+			{
+				jumpingFlag == JumpingFlag::JumpingFlag2 ?
+					enemy.second->Die1() :
+					enemy.second->DescreaseHP();
+
+				CSEPointManager::AddPoint(this->_position);
+				PlaySound(this->pCollisionEnemySound);
 
 				this->velocity = (this->velocity*collisionTime) / elapsedTime;
 
