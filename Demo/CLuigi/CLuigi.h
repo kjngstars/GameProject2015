@@ -64,10 +64,11 @@ private:
 
 	void CollisionLine(float elapsedTime,
 		std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>>* const listLine);
-	void CLuigi::CollisionLineX(float elapsedTime, float collisionTime,
+	void CollisionLineX(float elapsedTime, float collisionTime,
 		D3DXVECTOR2 point1, D3DXVECTOR2 point2, float normalX, float normalY);
-	void CLuigi::CollisionLineY(float elapsedTime, float collisionTime,
+	void CollisionLineY(float elapsedTime, float collisionTime,
 		D3DXVECTOR2 point1, float normalX, float normalY);
+	bool CollisionEnemy();
 
 	void Update_GrowToBig(float elapsedTime);
 	void Update_GrowToFire(float elapsedTime);
@@ -103,6 +104,8 @@ public:
 	void test();
 
 	BoudingBox getBox();
+
+	bool IsNormalState();
 
 	D3DXVECTOR2 GetPosition() { return this->_position; }
 	int GetState() { return this->state; }

@@ -38,6 +38,9 @@
     <ClInclude Include="DX\CStreamingSound.h" />
     <ClInclude Include="DX\CWaveFile.h" />
     <ClInclude Include="DX\dxaudio.h" />
+    <ClInclude Include="Enemies\CEnemiesManager.h" />
+    <ClInclude Include="Enemies\CEnemy.h" />
+    <ClInclude Include="Enemies\CEnemy0.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="QuadTree.h" />
@@ -64,18 +67,23 @@
     <ClCompile Include="DX\CStreamingSound.cpp" />
     <ClCompile Include="DX\CWaveFile.cpp" />
     <ClCompile Include="DX\dxaudio.cpp" />
+    <ClCompile Include="Enemies\CEnemiesManager.cpp" />
+    <ClCompile Include="Enemies\CEnemy.cpp" />
+    <ClCompile Include="Enemies\CEnemy0.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="xmlparser\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Content\Map\e-1.txt" />
     <Text Include="Content\Map\map1-1.txt" />
     <Text Include="Content\Map\object-1.txt" />
     <Text Include="Content\Map\quadtree-1.txt" />
     <Text Include="temp.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Content\Enemies\Enemy0.png" />
     <Image Include="Content\Luigi\Luigi.png">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </Image>

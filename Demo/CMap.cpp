@@ -506,6 +506,7 @@ void CMap::loadEnemies(std::string path)
 		pElement = pElement->NextSiblingElement("enemy");
 		
 		auto position = parseElement(pos);
+		position.second = this->GetMapHeightSize() - position.second;
 		
 		_listEnemiesInfo.push_back(EnemyInfo(id, std::stoi(type), position.first, position.second, std::stoi(patrolwidth), std::stoi(patrolheight), std::stoi(direction)));
 	}
@@ -553,6 +554,27 @@ std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> CMap::GetListLineWithQuadtree()
 			line.first.y != line.second.y ?
 				result.push_back(line) :
 				result.insert(result.begin(), line);
+		}
+	}
+
+	return result;
+}
+
+std::list<EnemyInfo> CMap::getListEnemyInViewPort()
+{
+	auto l = getListNodeObjectInViewPort();
+	std::list<EnemyInfo> result;
+
+	for (auto& i : l)
+	{
+		auto pos = std::find_if(_listEnemiesInfo.cbegin(), _listEnemiesInfo.cend(), [&](EnemyInfo e)
+		{
+			return e._id == i->_objectID;
+		});
+
+		if (pos != _listEnemiesInfo.cend())
+		{
+			result.push_back(*pos);
 		}
 	}
 

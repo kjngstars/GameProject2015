@@ -7,6 +7,12 @@ void CGame::Update(float dt, CDXInput* const inputDevice)
 	CLuigiBulletManager::Update(dt, this->_camera, &this->_map);
 #pragma endregion
 
+#pragma region enemy
+	if (this->luigi.IsNormalState())
+		CEnemiesManager::Update(dt, &this->_map,
+			CEnemiesManager::GetListEnemy());
+#pragma endregion
+
 	//camera
 	_camera->update(
 		this->luigi.GetPosition().x, this->luigi.GetPosition().y);

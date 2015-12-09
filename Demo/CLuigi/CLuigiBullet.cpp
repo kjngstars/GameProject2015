@@ -3,6 +3,7 @@
 #include "../CLuigi/LuigiConstant.h"
 #include "../Collision/Collision.h"
 #include "../GameConfig.h"
+#include "../Enemies/CEnemiesManager.h"
 
 #define LUIGIBULLET_WIDTH 16.0f
 #define LUIGIBULLET_HEIGHT 16.0f
@@ -106,6 +107,25 @@ void CLuigiBullet::Update(float elapsedTime, CMap* const pMap)
 			}
 		}
 
+#pragma endregion
+
+#pragma region enemies
+		for (auto& enemy : CEnemiesManager::GetListEnemy())
+		{
+
+			float collisionTime = SweptAABB(
+				elapsedTime, this->GetBox(),
+				enemy.second->GetBox(),
+				normalX, normalY);
+
+			if (collisionTime < elapsedTime)
+			{
+				checkVelocityY = false;
+				enemy.second->Die2();
+				this->velocity.x = this->velocity.x*collisionTime / elapsedTime;
+				this->ttl = LUIGIBULLET_TTL;
+			}
+		}
 #pragma endregion
 
 		this->position += this->velocity*elapsedTime;

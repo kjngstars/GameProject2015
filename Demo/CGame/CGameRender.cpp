@@ -11,6 +11,11 @@ void CGame::Render()
 	_map.drawBackground();
 	_map.drawObject();
 
+#pragma region enemies
+	CEnemiesManager::Render(
+		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);
+#pragma endregion enemies
+
 #pragma region luigi
 	this->luigi.Render(
 		CGraphics::GetInstancePtr()->GetSprite(), this->_camera);

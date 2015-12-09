@@ -6,6 +6,7 @@
 #include "../Collision/Collision.h"
 #include "CLuigiBullet.h"
 #include "CSPoint.h"
+#include "../Enemies/CEnemiesManager.h"
 
 static RunningFlag runningFlag = RunningFlag::RunningFlag0;
 static JumpingFlag jumpingFlag = JumpingFlag::JumpingFlag0;
@@ -386,10 +387,17 @@ void CLuigi::Update_Normal_Collision(float elapsedTime, CMap* const pMap)
 	//	pMap->GetListLineWithQuadtree();	//có Quadtree
 
 	this->CollisionLine(elapsedTime, &listLine);
-
 #pragma endregion
 
+	bool checkIVY = this->CollisionEnemy();
+
 	this->_position += this->velocity*elapsedTime;
+
+	if (checkIVY)
+	{
+		this->IncreaseVelocityX(elapsedTime, LUIGI_LIMITVELOCITYX1);
+		this->velocity.y = LUIGI_JUMPVELOCITYY0;
+	}
 
 	if (this->_position.x - LUIGI_WIDTHSIZE0 / 2.0f<0.0f)
 		this->_position.x = LUIGI_WIDTHSIZE0 / 2.0f;
@@ -887,6 +895,43 @@ void CLuigi::CollisionLineY(float elapsedTime, float collisionTime, D3DXVECTOR2 
 
 		this->StopJump();
 	}
+}
+
+bool CLuigi::CollisionEnemy()
+{
+	bool result = false;
+	float normalX, normalY;
+	std::map<int, CEnemy*> listEnemy = CEnemiesManager::GetListEnemy();//sss
+
+	for (auto& enemy : listEnemy)
+	{
+		float collisionTime = SweptAABB(
+			elapsedTime, this->getBox(),
+			enemy.second->GetBox(),
+			normalX, normalY);
+
+		if (collisionTime < elapsedTime)
+		{
+			if (this->invincibleTime>0.0f)
+				enemy.second->Die3();
+			else if (this->_position.y > enemy.second->GetBox()._y)
+			{
+				enemy.second->DescreaseHP();
+
+				this->velocity = (this->velocity*collisionTime) / elapsedTime;
+
+				result = true;
+			}
+			else if (this->ghostTime <= 0.0f)
+			{
+				this->type != LuigiType::Small ?
+					this->ShrinkToSmall() :
+					this->GoToHeaven();
+			}
+		}
+	}
+
+	return result;
 }
 
 void CLuigi::Update_GrowToBig(float elapsedTime)

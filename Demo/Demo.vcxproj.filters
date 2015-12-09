@@ -45,6 +45,15 @@
     <Filter Include="Content\Sound">
       <UniqueIdentifier>{b31a97c5-2387-4b43-b567-4e208494ebec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enemies">
+      <UniqueIdentifier>{42309a0b-e22b-4dcd-b940-99859c38bd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{1729b24d-e522-4626-b0ce-6aa07597362d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemies">
+      <UniqueIdentifier>{24985232-d86e-4243-8130-bd47be788b67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameConfig.h">
@@ -119,6 +128,15 @@
     <ClInclude Include="DX\dxaudio.h">
       <Filter>Header Files\DX</Filter>
     </ClInclude>
+    <ClInclude Include="Enemies\CEnemiesManager.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies\CEnemy.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies\CEnemy0.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -190,6 +208,15 @@
     <ClCompile Include="DX\dxaudio.cpp">
       <Filter>Source Files\DX</Filter>
     </ClCompile>
+    <ClCompile Include="Enemies\CEnemiesManager.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies\CEnemy0.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies\CEnemy.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="temp.txt">
@@ -202,6 +229,9 @@
       <Filter>Content\Map</Filter>
     </Text>
     <Text Include="Content\Map\quadtree-1.txt">
+      <Filter>Content\Map</Filter>
+    </Text>
+    <Text Include="Content\Map\e-1.txt">
       <Filter>Content\Map</Filter>
     </Text>
   </ItemGroup>
@@ -220,6 +250,9 @@
     </Image>
     <Image Include="Content\Luigi\SPoint.png">
       <Filter>Content\Luigi</Filter>
+    </Image>
+    <Image Include="Content\Enemies\Enemy0.png">
+      <Filter>Content\Enemies</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

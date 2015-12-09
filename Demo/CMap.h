@@ -89,6 +89,8 @@ public:
 	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> GetListLineWithoutQuadtree();
 	std::vector<std::pair<D3DXVECTOR2, D3DXVECTOR2>> GetListLineWithQuadtree();
 
+	std::list<EnemyInfo> CMap::getListEnemyInViewPort();
+
 private:
 	TEXTURE _tileSet;
 	std::vector<int> _tileList;

@@ -9,6 +9,7 @@ CGame::CGame()
 CGame::~CGame()
 {
 	CLuigiBulletManager::Destroy();
+	CEnemiesManager::Destroy();
 	SAFE_RELEASE(this->pDefaultFont);
 }
 
@@ -21,10 +22,18 @@ void CGame::GameInit()
 	_map.init("./content/map/map1-1.txt", "./content/map/tileset1.png");
 	_map.loadMapObject("content/map/object-1.txt");
 	_map.loadQuadTree("content/map/quadtree-1.txt");
-	
+
+#pragma region enemy
+	this->_map.loadEnemies("./Content/Map/e-1.txt");
+	std::list<EnemyInfo> listInfo = this->_map.getListEnemiesInfo();
+	for (auto& info : listInfo)
+		CEnemiesManager::AddEnemy(info);
+
+	CEnemiesManager::InitializeTexture(CGraphics::GetInstancePtr()->GetDevice());
+#pragma endregion
+
 	//camera
 	_camera = _map.getCamera();
-
 
 #pragma region pDefaultFont
 	SAFE_RELEASE(this->pDefaultFont);
@@ -162,7 +171,7 @@ void CGame::ToggleFullScreen()
 
 		HR(CGraphics::GetInstancePtr()->GetDevice()->Reset(
 			CGraphics::GetInstancePtr()->GetD3DPP()));
-		
+
 		this->OnResetDevice();
 	}
 }

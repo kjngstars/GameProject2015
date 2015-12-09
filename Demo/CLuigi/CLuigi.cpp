@@ -197,3 +197,8 @@ void CLuigi::StopJump()
 		this->_scale.x = this->direction*std::abs(this->_scale.x);
 	}
 }
+
+bool CLuigi::IsNormalState()
+{
+	return this->state == LuigiState::Normal;
+}

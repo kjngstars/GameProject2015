@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<enemies>
+  <enemy id="190">
+    <t>113</t>
+    <pos>{580,768}</pos>
+    <size>{22,34}</size>
+    <patrolwidth>200</patrolwidth>
+    <patrolheight>0</patrolheight>
+    <direction>2</direction>
+  </enemy>
+
+  <enemy id="191">
+    <t>113</t>
+    <pos>{600,768}</pos>
+    <size>{22,34}</size>
+    <patrolwidth>200</patrolwidth>
+    <patrolheight>0</patrolheight>
+    <direction>1</direction>
+  </enemy>
+</enemies>

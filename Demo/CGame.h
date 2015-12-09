@@ -7,6 +7,7 @@
 #include "CLuigi\CLuigi.h"
 #include "CMap.h"
 #include "Camera.h"
+#include "Enemies\CEnemiesManager.h"
 
 class CGame
 {

@@ -153,6 +153,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//shutdown
 
 	delete CGraphics::GetInstancePtr();
-
 	return message.wParam;
 }
