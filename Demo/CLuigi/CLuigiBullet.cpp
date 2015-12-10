@@ -177,7 +177,7 @@ void CLuigiBulletManager::Destroy()
 
 void CLuigiBulletManager::Update(float elapsedTime, CCamera* const pCamera, CMap* const pMap)
 {
-	BoudingBox viewport = BoudingBox(
+	BoudingBox viewport(
 		pCamera->_position.x, pCamera->_position.y,
 		SCREEN_WIDTH, SCREEN_HEIGHT);
 

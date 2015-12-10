@@ -912,7 +912,7 @@ bool CLuigi::CollisionEnemy()
 		{
 			if (this->invincibleTime>0.0f)
 			{
-				enemy.second->Die3();
+				enemy.second->Die3(this->velocity.x);
 				PlaySound(this->pCollisionEnemySound);
 			}
 			else if (this->_position.y >= enemy.second->GetBox()._y)

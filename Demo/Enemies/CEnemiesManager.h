@@ -16,7 +16,7 @@ public:
 	static void AddEnemy(EnemyInfo info);
 
 	static void Update(float elapsedTime, CMap* const pMap,
-		std::map<int, CEnemy*> listEnemyAlive);
+		CCamera* const pCamera, std::map<int, CEnemy*> listEnemyAlive);
 	static void Render(ID3DXSprite* pSprite, CCamera* const pCamera);
 
 	static std::map<int, CEnemy*> GetListEnemyAlive()

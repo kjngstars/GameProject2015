@@ -11,7 +11,7 @@ void CGame::Update(float dt, CDXInput* const inputDevice)
 	{
 		CLuigiBulletManager::Update(dt, this->_camera, &this->_map);
 		CEnemiesManager::Update(dt, &this->_map,
-			CEnemiesManager::GetListEnemyAlive());
+			this->_camera, CEnemiesManager::GetListEnemyAlive());
 		CSEPointManager::Update(dt);
 	}
 

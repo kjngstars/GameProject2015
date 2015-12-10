@@ -21,7 +21,12 @@ void CEnemy::Die2()
 	this->isDied = 2;
 }
 
-void CEnemy::Die3()
+void CEnemy::Die3(float sign)
 {
+	sign > 0 ? this->direction = 1 : this->direction = -1;
+
+	this->velocity.x = this->direction*0.16f;
+	this->velocity.y = 0.48f;
+
 	this->isDied = 3;
 }
