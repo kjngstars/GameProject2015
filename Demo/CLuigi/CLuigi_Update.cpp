@@ -917,7 +917,8 @@ bool CLuigi::CollisionEnemy()
 			}
 			else if (this->_position.y >= enemy.second->GetBox()._y)
 			{
-				jumpingFlag == JumpingFlag::JumpingFlag2 ?
+				jumpingFlag == JumpingFlag::JumpingFlag2 ||
+					this->velocity.y == LUIGI_LIMITVELOCITYY ?
 					enemy.second->Die1() :
 					enemy.second->DescreaseHP();
 
