@@ -10,7 +10,7 @@
   </enemy>
 
   <enemy id="191">
-    <t>113</t>
+    <t>114</t>
     <pos>{600,768}</pos>
     <size>{22,34}</size>
     <patrolwidth>200</patrolwidth>
@@ -18,8 +18,18 @@
     <direction>1</direction>
   </enemy>
 
+  
+  <enemy id="194">
+    <t>114</t>
+    <pos>{600,768}</pos>
+    <size>{22,34}</size>
+    <patrolwidth>200</patrolwidth>
+    <patrolheight>0</patrolheight>
+    <direction>2</direction>
+  </enemy>
+
   <enemy id="192">
-    <t>113</t>
+    <t>114</t>
     <pos>{1000,768}</pos>
     <size>{22,34}</size>
     <patrolwidth>200</patrolwidth>

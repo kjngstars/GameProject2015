@@ -30,7 +30,6 @@
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="Collision\Collision.h" />
-    <ClInclude Include="CScene.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="DX\CDXInput.h" />
     <ClInclude Include="DX\CSound.h" />
@@ -41,18 +40,22 @@
     <ClInclude Include="Enemies\CEnemiesManager.h" />
     <ClInclude Include="Enemies\CEnemy.h" />
     <ClInclude Include="Enemies\CEnemy0.h" />
+    <ClInclude Include="Enemies\CEnemy1.h" />
     <ClInclude Include="Enemies\CSEPoint.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="Scene\CGameplay.h" />
+    <ClInclude Include="Scene\CMainMenu.h" />
+    <ClInclude Include="Scene\CMainMenuButton.h" />
+    <ClInclude Include="Scene\CScene.h" />
+    <ClInclude Include="Scene\CScoreManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="xmlparser\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CGame\CGame.cpp" />
-    <ClCompile Include="CGame\CGameRender.cpp" />
-    <ClCompile Include="CGame\CGameUpdate.cpp" />
     <ClCompile Include="CGraphics.cpp" />
     <ClCompile Include="CLuigi\CLuigi.cpp" />
     <ClCompile Include="CLuigi\CLuigiBullet.cpp" />
@@ -71,9 +74,14 @@
     <ClCompile Include="Enemies\CEnemiesManager.cpp" />
     <ClCompile Include="Enemies\CEnemy.cpp" />
     <ClCompile Include="Enemies\CEnemy0.cpp" />
+    <ClCompile Include="Enemies\CEnemy1.cpp" />
     <ClCompile Include="Enemies\CSEPoint.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="Scene\CGameplay.cpp" />
+    <ClCompile Include="Scene\CMainMenu.cpp" />
+    <ClCompile Include="Scene\CMainMenuButton.cpp" />
+    <ClCompile Include="Scene\CScoreManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="xmlparser\tinyxml2.cpp" />
   </ItemGroup>

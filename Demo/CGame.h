@@ -1,28 +1,25 @@
 #pragma once
 
-#include "CGraphics.h"
-#include "GameConfig.h"
-#include "CObject.h"
-#include "DX\CDXInput.h"
-#include "CLuigi\CLuigi.h"
-#include "CMap.h"
-#include "Camera.h"
-#include "Enemies\CEnemiesManager.h"
+#include "Scene\CMainMenu.h"
+#include "Scene\CGameplay.h"
 
 class CGame
 {
 private:
+	POINT mousePosition;
 	ID3DXFont* pDefaultFont = 0;
 
-	CMap _map;
-	CLuigi luigi;
-	CCamera* _camera;
-	float fps;
+	CScene* currentScene = 0;
+	
+	CMainMenu mainMenu;
+	CGameplay gameplay;
+
+	int fps = 0;
 
 public:
+	static bool isPaused;
+	static bool end;
 	static std::map<int, std::string> _listPathObject;
-
-	bool isPaused = false;
 
 	CGame();
 	~CGame();

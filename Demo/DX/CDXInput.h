@@ -1,5 +1,6 @@
 #pragma once
 
+#include <d3dx9.h>
 #include <dinput.h>
 #include "../GameConfig.h"
 
@@ -21,7 +22,7 @@ public:
 
 	void Initialize(HINSTANCE hInstance, HWND wnd);
 
-	void Update();
+	void Update(HWND hwnd);
 	void Change();
 
 	bool KeyDown(int key);

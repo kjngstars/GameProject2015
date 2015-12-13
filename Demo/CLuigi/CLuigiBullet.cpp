@@ -121,7 +121,7 @@ void CLuigiBullet::Update(float elapsedTime, CMap* const pMap)
 			if (collisionTime < elapsedTime)
 			{
 				checkVelocityY = false;
-				enemy.second->Die2();
+				enemy.second->BulletHit();
 				this->velocity.x = this->velocity.x*collisionTime / elapsedTime;
 				this->ttl = LUIGIBULLET_TTL;
 			}

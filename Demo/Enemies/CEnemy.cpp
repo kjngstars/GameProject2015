@@ -1,4 +1,4 @@
-#include "CEnemy.h"
+#include "CEnemiesManager.h"
 
 void CEnemy::DescreaseHP()
 {
@@ -8,25 +8,32 @@ void CEnemy::DescreaseHP()
 		this->hp = 0;
 
 	if (this->hp == 0)
-		this->Die1();
+		this->TrampledToDeath();
 }
 
-void CEnemy::Die1()
+void CEnemy::TrampledToDeath()
 {
-	this->isDied = 1;
+	this->dieFlag = DIEFLAG_TRAMPLE;
+
+	CScoreManager::AddScore(this->score);
 }
 
-void CEnemy::Die2()
+void CEnemy::BulletHit()
 {
-	this->isDied = 2;
+	this->dieFlag = DIEFLAG_BULLET;
+
+	CScoreManager::AddScore(this->score);
 }
 
-void CEnemy::Die3(float sign)
+void CEnemy::Die(float sign)
 {
 	sign > 0 ? this->direction = 1 : this->direction = -1;
 
 	this->velocity.x = this->direction*0.16f;
 	this->velocity.y = 0.48f;
 
-	this->isDied = 3;
+	CEnemiesManager::Playsound();
+	this->dieFlag = DIEFLAG_UNKNOWN;
+
+	CScoreManager::AddScore(this->score);
 }

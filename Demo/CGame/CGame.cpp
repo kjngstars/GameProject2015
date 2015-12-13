@@ -1,6 +1,8 @@
 #include "../CGame.h"
 
-std::map<int, std::string> CGame::_listPathObject = {};
+bool CGame::isPaused = false;
+bool CGame::end = false;
+std::map<int, std::string> CGame::_listPathObject;
 
 CGame::CGame()
 {
@@ -8,37 +10,15 @@ CGame::CGame()
 
 CGame::~CGame()
 {
-	CLuigiBulletManager::Destroy();
-	CEnemiesManager::Destroy();
-	CSEPointManager::Destroy();
 	SAFE_RELEASE(this->pDefaultFont);
 }
 
 void CGame::GameInit()
 {
-	//init listpath object
-	initListPathObject();
-
-	//map
-	_map.init("./content/map/map1-1.txt", "./content/map/tileset1.png");
-	_map.loadMapObject("content/map/object-1.txt");
-	_map.loadQuadTree("content/map/quadtree-1.txt");
-
-#pragma region enemy
-	this->_map.loadEnemies("./Content/Map/e-1.txt");
-	std::list<EnemyInfo> listInfo = this->_map.getListEnemiesInfo();
-	for (auto& info : listInfo)
-		CEnemiesManager::AddEnemy(info);
-
-	CEnemiesManager::InitializeTexture(CGraphics::GetInstancePtr()->GetDevice());
-	CSEPointManager::Initialize(CGraphics::GetInstancePtr()->GetDevice());
-#pragma endregion
-
-	//camera
-	_camera = _map.getCamera();
-
 #pragma region pDefaultFont
-	SAFE_RELEASE(this->pDefaultFont);
+	if (this->pDefaultFont != nullptr)
+		this->pDefaultFont->Release();
+
 	HR(D3DXCreateFont(
 		CGraphics::GetInstancePtr()->GetDevice(),
 		20, 0,
@@ -50,11 +30,12 @@ void CGame::GameInit()
 		"Times New Roman",
 		&this->pDefaultFont));
 #pragma endregion
+	this->initListPathObject();
 
-#pragma region luigi
-	this->luigi.Initialize(CGraphics::GetInstancePtr()->GetDevice());
-	CLuigiBulletManager::Initialize(CGraphics::GetInstancePtr()->GetDevice());
-#pragma endregion
+	this->mainMenu.Initialize(CGraphics::GetInstancePtr()->GetDevice());
+	this->gameplay.Initialize(CGraphics::GetInstancePtr()->GetDevice());
+
+	this->currentScene = &this->mainMenu;
 }
 
 void CGame::initListPathObject()
@@ -119,7 +100,10 @@ bool CGame::IsLostDevice()
 	HRESULT hr = CGraphics::GetInstancePtr()->GetDevice()->TestCooperativeLevel();
 
 	if (hr == D3DERR_DEVICELOST)
+	{
+		Sleep(20);
 		return true;
+	}
 	else if (hr == D3DERR_DRIVERINTERNALERROR)
 	{
 		MessageBox(0, "[CGame::IsLostDevice] Internal Driver Error", 0, 0);
@@ -134,6 +118,7 @@ bool CGame::IsLostDevice()
 			CGraphics::GetInstancePtr()->GetD3DPP()));
 
 		this->OnResetDevice();
+
 		return false;
 	}
 	else
@@ -182,12 +167,67 @@ void CGame::OnLostDevice()
 {
 	HR(CGraphics::GetInstancePtr()->GetSprite()->OnLostDevice());
 	HR(this->pDefaultFont->OnLostDevice());
-	this->luigi.OnLostDevice();
+	this->gameplay.OnLostDevice();
 }
 
 void CGame::OnResetDevice()
 {
 	HR(CGraphics::GetInstancePtr()->GetSprite()->OnResetDevice());
 	HR(this->pDefaultFont->OnResetDevice());
-	this->luigi.OnResetDevice();
+	this->gameplay.OnResetDevice();
+}
+
+void CGame::Update(float dt, CDXInput* const inputDevice)
+{
+	switch (this->currentScene->Update(dt, inputDevice))
+	{
+	case SceneResult::None:
+		break;
+
+	case SceneResult::MainMenu:
+		this->currentScene = &this->mainMenu;
+		break;
+
+	case SceneResult::Gameplay:
+		this->currentScene = &this->gameplay;
+		break;
+
+	case SceneResult::Exit:
+		CGame::end = true;
+		break;
+	}
+
+	this->fps = std::roundf(1000.0f / dt);
+}
+
+void CGame::Render()
+{
+	CGraphics::GetInstancePtr()->getD3dx9Device()->Clear(0, NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	BEGIN_SCENE();
+	BEGIN_DRAW();
+
+	this->currentScene->Render(CGraphics::GetInstancePtr()->GetSprite());
+
+#pragma region text
+	MATRIX matTransform;
+	D3DXMatrixIdentity(&matTransform);
+	CGraphics::GetInstancePtr()->GetSprite()->SetTransform(&matTransform);
+
+	RECT formatRect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+
+	std::string str =
+		"FPS: " + std::to_string(this->fps) + "\n" +
+		"Mouse: " + std::to_string(this->mousePosition.x) + " " +
+		std::to_string(this->mousePosition.y) + "\n";
+
+	this->pDefaultFont->DrawText(
+		CGraphics::GetInstancePtr()->GetSprite(),
+		str.c_str(), -1, &formatRect, DT_NOCLIP,
+		D3DCOLOR_XRGB(0, 0, 0));
+#pragma endregion
+
+	END_DRAW();
+	END_SCENE();
+	CGraphics::GetInstancePtr()->getD3dx9Device()->Present(nullptr, nullptr, nullptr, nullptr);
 }

@@ -3,7 +3,6 @@
 #include"CGame.h"
 #include "DX\dxaudio.h"
 
-bool gameover = false;
 CGame game;
 CDXInput inputDevice;
 
@@ -13,18 +12,18 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_ACTIVATE:
 		(LOWORD(wParam) == WA_INACTIVE) ?
-			game.isPaused = true : game.isPaused = false;
+			CGame::isPaused = true : CGame::isPaused = false;
 		return 0;
 
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
-			game.isPaused = true;
+			CGame::isPaused = true;
 		return 0;
 
 	case WM_SYSKEYDOWN:				//alt
 		if (wParam == VK_F4 && (HIWORD(lParam) & KF_ALTDOWN))
 		{
-			gameover = true;
+			CGame::end = true;
 			PostQuitMessage(0);
 			return 0;
 		}
@@ -34,7 +33,7 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_DESTROY:
-		gameover = true;
+		CGame::end = true;
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -70,6 +69,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MessageBox(0, "RegisterClass FAILED", 0, 0);
 		PostQuitMessage(0);
 	}
+
+	RECT R = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
 
 	//create a new window
 	HWND window = CreateWindow(
@@ -120,7 +122,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	float dt = 0.0f;
 
-	while (!gameover)
+	while (!CGame::end)
 	{
 		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
 		{
@@ -135,7 +137,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			dt += (float)elapsedTime.QuadPart * 1000.0f /
 				(float)frequency.QuadPart;
-			inputDevice.Update();
+			inputDevice.Update(window);
 
 			if (dt >= time_per_frame)
 			{

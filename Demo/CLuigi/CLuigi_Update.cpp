@@ -60,13 +60,13 @@ void CLuigi::Update_Normal_GhostTime(float elapsedTime)
 	{
 		this->ghostTime -= elapsedTime;
 		(int)(this->ghostTime / LUIGI_GHOST_DELAYTIME) % 2 == 1 ?
-			this->color.a = 0 : this->color.a = 255;
+			this->color.a = 0.0f : this->color.a = 1.0f;
 	}
 
 	if (this->ghostTime < 0.0f)
 	{
 		this->ghostTime = 0.0f;
-		this->color.a = 255;
+		this->color.a = 1.0f;
 	}
 }
 
@@ -897,43 +897,48 @@ void CLuigi::CollisionLineY(float elapsedTime, float collisionTime, D3DXVECTOR2 
 bool CLuigi::CollisionEnemy()
 {
 	bool result = false;
+
 	float normalX, normalY;
 	std::map<int, CEnemy*> listEnemyAlive = CEnemiesManager::GetListEnemyAlive();//sss
 
 	for (auto& enemy : listEnemyAlive)
 	{
-		float collisionTime = SweptAABB(
-			elapsedTime, this->getBox(),
-			enemy.second->GetBox(),
-			normalX, normalY);
-
-		if (collisionTime < elapsedTime ||
-			this->getBox().Intersect(enemy.second->GetBox()))
+		if (!enemy.second->IsDied())
 		{
-			if (this->invincibleTime>0.0f)
-			{
-				enemy.second->Die3(this->velocity.x);
-				PlaySound(this->pCollisionEnemySound);
-			}
-			else if (this->_position.y >= enemy.second->GetBox()._y)
-			{
-				jumpingFlag == JumpingFlag::JumpingFlag2 ||
-					this->velocity.y == LUIGI_LIMITVELOCITYY ?
-					enemy.second->Die1() :
-					enemy.second->DescreaseHP();
+			float collisionTime = SweptAABB(
+				elapsedTime, this->getBox(),
+				enemy.second->GetBox(),
+				normalX, normalY);
 
-				CSEPointManager::AddPoint(this->_position);
-				PlaySound(this->pCollisionEnemySound);
-
-				this->velocity = (this->velocity*collisionTime) / elapsedTime;
-
-				result = true;
-			}
-			else if (this->ghostTime <= 0.0f)
+			if (collisionTime < elapsedTime ||
+				this->getBox().Intersect(enemy.second->GetBox()))
 			{
-				this->type != LuigiType::Small ?
-					this->ShrinkToSmall() :
-					this->GoToHeaven();
+				if (this->invincibleTime>0.0f)
+				{
+					enemy.second->Die(this->velocity.x);
+					CEnemiesManager::Playsound();
+				}
+				else if (this->_position.y >= enemy.second->GetBox()._y)
+				{
+					jumpingFlag == JumpingFlag::JumpingFlag2 ||
+						this->velocity.y == LUIGI_LIMITVELOCITYY ?
+						enemy.second->TrampledToDeath() :
+						enemy.second->DescreaseHP();
+
+					CSEPointManager::AddPoint(this->_position);
+					CEnemiesManager::Playsound();
+
+					this->velocity = (this->velocity*collisionTime) / elapsedTime;
+
+					result = true;
+				}
+				else if (this->ghostTime <= 0.0f &&
+					enemy.second->Dame(this->velocity.x))
+				{
+					this->type != LuigiType::Small ?
+						this->ShrinkToSmall() :
+						this->GoToHeaven();
+				}
 			}
 		}
 	}
@@ -1073,7 +1078,7 @@ void CLuigi::Update_ShrinkToSmall(float elapsedTime)
 	}
 }
 
-void CLuigi::Update_Die(float elapsedTime)
+void CLuigi::Update_Die(float elapsedTime, CCamera* pCamera)
 {
 	if (this->velocity.y > LUIGI_LIMITVELOCITYY)
 	{
@@ -1100,9 +1105,17 @@ void CLuigi::Update_Die(float elapsedTime)
 	}
 
 	this->_position += this->velocity*elapsedTime;
+
+	BoudingBox viewport(
+		pCamera->_position.x, pCamera->_position.y,
+		SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	if (!viewport.Intersect(this->getBox()))
+		this->isDied = true;
 }
 
-void CLuigi::Update(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap)
+void CLuigi::Update(float elapsedTime, CDXInput* const inputDevice,
+	CCamera* pCamera, CMap* const pMap)
 {
 	switch (this->state)
 	{
@@ -1132,7 +1145,7 @@ void CLuigi::Update(float elapsedTime, CDXInput* const inputDevice, CMap* const 
 
 	case LuigiState::Die:
 	{
-		this->Update_Die(elapsedTime);
+		this->Update_Die(elapsedTime, pCamera);
 	}
 	break;
 	}

@@ -54,6 +54,12 @@
     <Filter Include="Content\Enemies">
       <UniqueIdentifier>{24985232-d86e-4243-8130-bd47be788b67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scene">
+      <UniqueIdentifier>{b1d0fe1d-e31b-42ab-ae0d-c5674798db86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CScene">
+      <UniqueIdentifier>{905cd1be-81eb-44e0-95aa-641a6eeef417}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameConfig.h">
@@ -63,9 +69,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CGraphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSprite.h">
@@ -140,6 +143,24 @@
     <ClInclude Include="Enemies\CSEPoint.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\CScene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CGameplay.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CMainMenu.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CMainMenuButton.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies\CEnemy1.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CScoreManager.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -150,12 +171,6 @@
     </ClCompile>
     <ClCompile Include="DX\CDXInput.cpp">
       <Filter>Source Files\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="CGame\CGameUpdate.cpp">
-      <Filter>Source Files\CGame</Filter>
-    </ClCompile>
-    <ClCompile Include="CGame\CGameRender.cpp">
-      <Filter>Source Files\CGame</Filter>
     </ClCompile>
     <ClCompile Include="CGame\CGame.cpp">
       <Filter>Source Files\CGame</Filter>
@@ -222,6 +237,21 @@
     </ClCompile>
     <ClCompile Include="Enemies\CSEPoint.cpp">
       <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\CGameplay.cpp">
+      <Filter>Source Files\CScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\CMainMenu.cpp">
+      <Filter>Source Files\CScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\CMainMenuButton.cpp">
+      <Filter>Source Files\CScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies\CEnemy1.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\CScoreManager.cpp">
+      <Filter>Source Files\CScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

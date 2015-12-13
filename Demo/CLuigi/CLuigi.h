@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../CObject.h"
 #include "../DX/CDXInput.h"
+#include "../DX/dxaudio.h"
+#include "../CObject.h"
 #include "../Camera.h"
 #include "../CMap.h"
 #include "CLuigiBullet.h"
-#include "../DX/dxaudio.h"
 
 extern enum LuigiType;
 extern enum LuigiState;
@@ -39,12 +39,13 @@ private:
 	int direction = 0;
 	D3DXVECTOR2 velocity;
 
+	bool isDied = false;
+
 #pragma region Sound
 	CSound* pJump0Sound = 0;
 	CSound* pJump1Sound = 0;
 	CSound* pGrowUpToBigSound = 0;
 	CSound* pGrowUpToFireSound = 0;
-	CSound* pCollisionEnemySound = 0;
 	CSound* pFireSound = 0;
 	CSound* pDieSound = 0;
 #pragma endregion
@@ -75,7 +76,7 @@ private:
 	void Update_GrowToBig(float elapsedTime);
 	void Update_GrowToFire(float elapsedTime);
 	void Update_ShrinkToSmall(float elapsedTime);
-	void Update_Die(float elapsedTime);
+	void Update_Die(float elapsedTime, CCamera* pCamera);
 
 	void Render_Normal(ID3DXSprite* pSprite);
 	void Render_GrowToBig(ID3DXSprite* pSprite);
@@ -93,7 +94,8 @@ public:
 	~CLuigi();
 
 	void Initialize(IDirect3DDevice9* pD3DDevice);
-	void Update(float elapsedTime, CDXInput* const inputDevice, CMap* const pMap);
+	void Update(float elapsedTime, CDXInput* const inputDevice,
+		CCamera* pCamera, CMap* const pMap);
 	void Render(ID3DXSprite* pSprite, CCamera* const pCamera);
 
 	void OnLostDevice();
@@ -108,6 +110,7 @@ public:
 	BoudingBox getBox();
 
 	bool IsNormalState();
+	bool IsDied() { return this->isDied; }
 
 	D3DXVECTOR2 GetPosition() { return this->_position; }
 	int GetState() { return this->state; }

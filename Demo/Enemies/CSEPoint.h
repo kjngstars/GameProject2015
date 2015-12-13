@@ -28,7 +28,7 @@ public:
 	friend class CSEPointManager;
 };
 
-static class CSEPointManager
+class CSEPointManager
 {
 private:
 	static IDirect3DTexture9* pointTexture;

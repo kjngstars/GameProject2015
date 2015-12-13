@@ -2,15 +2,20 @@
 
 #include "CEnemy.h"
 #include"CSEPoint.h"
+#include "../DX/dxaudio.h"
 
 class CEnemiesManager
 {
 private:
-	static std::map<int, CEnemy*> listEnemyAlive;
-	static std::map<int, CEnemy*> listEnemyDied;
+	static std::map<int, CEnemy*> listEnemy;
+
+	static CSound* pEnemyCollisionSound;
+
+	static bool CheckEnemyToRemove(CEnemy* pEnemy,
+		CCamera* const pCamera, std::list<EnemyInfo> listInfo);
 
 public:
-	static void InitializeTexture(IDirect3DDevice9* pD3DDevice);
+	static void Initialize(IDirect3DDevice9* pD3DDevice);
 	static void Destroy();
 
 	static void AddEnemy(EnemyInfo info);
@@ -21,8 +26,8 @@ public:
 
 	static std::map<int, CEnemy*> GetListEnemyAlive()
 	{
-		return CEnemiesManager::listEnemyAlive;
+		return CEnemiesManager::listEnemy;
 	}
 
-	static std::map<int, CEnemy*> GetListEnemyinViewport(CMap* const pMap);
+	static void Playsound();
 };

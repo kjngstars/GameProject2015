@@ -1,4 +1,6 @@
 #include "CDXInput.h"
+#include "../GameConfig.h"
+#include "../CGraphics.h"
 
 void CDXInput::Initialize(HINSTANCE hInstance, HWND wnd)
 {
@@ -29,6 +31,7 @@ void CDXInput::Initialize(HINSTANCE hInstance, HWND wnd)
 CDXInput::~CDXInput()
 {
 	SAFE_RELEASE(this->pDInputObject);
+	SAFE_RELEASE(this->pDInputObject);
 
 	this->pMouse->Unacquire();
 	SAFE_RELEASE(this->pMouse);
@@ -37,7 +40,7 @@ CDXInput::~CDXInput()
 	SAFE_RELEASE(this->pKeyboard);
 }
 
-void CDXInput::Update()
+void CDXInput::Update(HWND hwnd)
 {
 	this->previousMouseState = this->currentMouseState;
 	HRESULT hr = this->pMouse->GetDeviceState(
