@@ -29,7 +29,7 @@ void CMainMenuButton::Initialize(IDirect3DDevice9* pD3DDevice,
 void CMainMenuButton::Selected(bool select)
 {
 	select ?
-		this->sourceRect.left = this->width :
+		this->sourceRect.left = this->width + 1 :
 		this->sourceRect.left = 0;
 
 	this->sourceRect.right = this->sourceRect.left + this->width;

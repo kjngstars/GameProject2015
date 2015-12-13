@@ -7,6 +7,7 @@
 #include "CLuigiBullet.h"
 #include "CSPoint.h"
 #include "../Enemies/CEnemiesManager.h"
+#include "../Scene/CGameplayPanel.h"
 
 static RunningFlag runningFlag = RunningFlag::RunningFlag0;
 static JumpingFlag jumpingFlag = JumpingFlag::JumpingFlag0;
@@ -52,6 +53,9 @@ void CLuigi::Update_Normal(float elapsedTime, CDXInput* const inputDevice, CMap*
 		this->test();
 
 	CSPointManager::Update(elapsedTime);
+
+	if (CGameplayPanel::GetTime() == 0.0f)
+		this->GoToHeaven();
 }
 
 void CLuigi::Update_Normal_GhostTime(float elapsedTime)

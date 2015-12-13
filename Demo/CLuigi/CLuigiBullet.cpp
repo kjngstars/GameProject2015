@@ -25,7 +25,7 @@
 #define LIMIT_LUIGIBULLET 200.0f
 
 static const D3DXVECTOR2 LuigiBulletAnchorPoint =
-D3DXVECTOR2(32.0f, 32.0f);
+{ 32.0f, 32.0f };
 
 IDirect3DTexture9* CLuigiBulletManager::bulletTexture;
 std::vector<CLuigiBullet> CLuigiBulletManager::listBullet;

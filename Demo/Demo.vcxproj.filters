@@ -60,6 +60,9 @@
     <Filter Include="Source Files\CScene">
       <UniqueIdentifier>{905cd1be-81eb-44e0-95aa-641a6eeef417}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Scene">
+      <UniqueIdentifier>{9105478e-8940-423a-80ee-48d356793683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameConfig.h">
@@ -158,6 +161,12 @@
     <ClInclude Include="Enemies\CEnemy1.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\CGameplayPanel.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CScore.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Scene\CScoreManager.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
@@ -250,6 +259,12 @@
     <ClCompile Include="Enemies\CEnemy1.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\CGameplayPanel.cpp">
+      <Filter>Source Files\CScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\CScore.cpp">
+      <Filter>Source Files\CScene</Filter>
+    </ClCompile>
     <ClCompile Include="Scene\CScoreManager.cpp">
       <Filter>Source Files\CScene</Filter>
     </ClCompile>
@@ -269,6 +284,9 @@
     </Text>
     <Text Include="Content\Map\e-1.txt">
       <Filter>Content\Map</Filter>
+    </Text>
+    <Text Include="Content\Scene\Number.txt">
+      <Filter>Content\Scene</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +311,24 @@
     <Image Include="Content\Enemies\Star.png">
       <Filter>Content\Enemies</Filter>
     </Image>
+    <Image Include="Content\Scene\ExitButton.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
+    <Image Include="Content\Scene\Gameplay.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
+    <Image Include="Content\Scene\MainMenu.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
+    <Image Include="Content\Scene\Number0.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
+    <Image Include="Content\Scene\Number2.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
+    <Image Include="Content\Scene\PlayButton.png">
+      <Filter>Content\Scene</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Luigi\E0.fx">
@@ -314,6 +350,9 @@
     </Media>
     <Media Include="Content\Sound\Die.wav">
       <Filter>Content\Sound</Filter>
+    </Media>
+    <Media Include="Content\Scene\Pause.wav">
+      <Filter>Content\Scene</Filter>
     </Media>
   </ItemGroup>
 </Project>

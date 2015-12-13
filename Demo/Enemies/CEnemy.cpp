@@ -1,4 +1,5 @@
 #include "CEnemiesManager.h"
+#include "../Scene/CScoreManager.h"
 
 void CEnemy::DescreaseHP()
 {
@@ -8,21 +9,29 @@ void CEnemy::DescreaseHP()
 		this->hp = 0;
 
 	if (this->hp == 0)
-		this->TrampledToDeath();
+		this->dieFlag = DIEFLAG_TRAMPLE;
+
+	CScoreManager::AddScore(
+		D3DXVECTOR2(this->GetBox()._x + this->GetBox()._w,
+			this->GetBox()._y));
 }
 
 void CEnemy::TrampledToDeath()
 {
 	this->dieFlag = DIEFLAG_TRAMPLE;
 
-	CScoreManager::AddScore(this->score);
+	CScoreManager::AddScore(
+		D3DXVECTOR2(this->GetBox()._x + this->GetBox()._w,
+			this->GetBox()._y));
 }
 
 void CEnemy::BulletHit()
 {
 	this->dieFlag = DIEFLAG_BULLET;
 
-	CScoreManager::AddScore(this->score);
+	CScoreManager::AddScore(
+		D3DXVECTOR2(this->GetBox()._x + this->GetBox()._w,
+			this->GetBox()._y));
 }
 
 void CEnemy::Die(float sign)
@@ -35,5 +44,12 @@ void CEnemy::Die(float sign)
 	CEnemiesManager::Playsound();
 	this->dieFlag = DIEFLAG_UNKNOWN;
 
-	CScoreManager::AddScore(this->score);
+	CScoreManager::AddScore(
+		D3DXVECTOR2(this->GetBox()._x + this->GetBox()._w,
+			this->GetBox()._y));
+}
+
+bool CEnemy::Dame(float sign)
+{
+	return this->dieFlag == DIEFLAG_NONE;
 }

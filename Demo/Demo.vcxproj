@@ -49,6 +49,8 @@
     <ClInclude Include="Scene\CMainMenu.h" />
     <ClInclude Include="Scene\CMainMenuButton.h" />
     <ClInclude Include="Scene\CScene.h" />
+    <ClInclude Include="Scene\CGameplayPanel.h" />
+    <ClInclude Include="Scene\CScore.h" />
     <ClInclude Include="Scene\CScoreManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="xmlparser\tinyxml2.h" />
@@ -81,6 +83,8 @@
     <ClCompile Include="Scene\CGameplay.cpp" />
     <ClCompile Include="Scene\CMainMenu.cpp" />
     <ClCompile Include="Scene\CMainMenuButton.cpp" />
+    <ClCompile Include="Scene\CGameplayPanel.cpp" />
+    <ClCompile Include="Scene\CScore.cpp" />
     <ClCompile Include="Scene\CScoreManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="xmlparser\tinyxml2.cpp" />
@@ -90,6 +94,7 @@
     <Text Include="Content\Map\map1-1.txt" />
     <Text Include="Content\Map\object-1.txt" />
     <Text Include="Content\Map\quadtree-1.txt" />
+    <Text Include="Content\Scene\Number.txt" />
     <Text Include="temp.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +109,12 @@
     <Image Include="Content\Luigi\SPoint.png" />
     <Image Include="Content\Map\tileset.bmp" />
     <Image Include="Content\Map\tileset1.png" />
+    <Image Include="Content\Scene\ExitButton.png" />
+    <Image Include="Content\Scene\Gameplay.png" />
+    <Image Include="Content\Scene\MainMenu.png" />
+    <Image Include="Content\Scene\Number0.png" />
+    <Image Include="Content\Scene\Number2.png" />
+    <Image Include="Content\Scene\PlayButton.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Luigi\E0.fx">
@@ -112,6 +123,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Content\Scene\Pause.wav" />
     <Media Include="Content\Sound\Die.wav" />
     <Media Include="Content\Sound\Fire.wav" />
     <Media Include="Content\Sound\GrowUpToBig.wav" />
